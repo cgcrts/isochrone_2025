@@ -1,0 +1,142 @@
+/* Form */
+
+.form-container-outer {
+    bottom: 32px;
+    left: 32px;
+    position: fixed;
+    transition: 0.5s ease-in-out;
+    z-index: 1000;
+}
+
+.form-container {
+    background-color: #f9f9f9;
+    border: 2px solid #c8c8c8;
+    border-radius: 16px;
+    box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.17);
+    padding: 16px;
+    max-width: 340px;
+
+    /* Cap form to 80% of the viewport height, scroll if necessary */
+    max-height: 80vh;
+    overflow: scroll;
+}
+
+.toggle-form-display {
+    border: 2px solid #c8c8c8;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.17);
+    cursor: pointer;
+    height: 40px;
+    padding: 8px;
+    position: absolute;
+    right: -56px;
+    top: 0;
+    width: 40px;
+}
+
+.toggle-form-display img {
+    height: 100%;
+    transition: 0.5s ease-in-out;
+    width: 100%;
+}
+
+.hide-form {
+    left: calc(16px - 340px);
+}
+
+.hide-form .toggle-form-display img {
+    transform: rotate(180deg);
+}
+
+.form-container h2 {
+    font-size: 20px;
+    font-weight: 600;
+    margin: 0 0 24px;
+}
+
+.form-group {
+    margin-bottom: 12px;
+}
+
+.form-group label {
+    margin-bottom: 8px;
+}
+
+.selecting-origin-point {
+    color: #e2453c;
+    border-color: #e2453c;
+}
+
+.selecting-origin-point:hover {
+    border-color: rgba(226, 69, 60, 0.6);
+    background-color: #f8f2f1;
+}
+
+.origin-point-coord {
+    font-style: italic;
+    margin-top: 6px;
+}
+
+.form-checkbox {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+}
+
+.form-checkbox label {
+    display: inline;
+    margin: 0;
+    overflow-x: hidden;
+}
+
+/* Form controls point 2 */
+
+#ctrls-point-2-hidden {
+    /* display: block; */
+    max-height: 48px;
+    overflow: hidden;
+    transition: 0.2s ease-in-out;
+}
+
+#ctrls-point-2-hidden a {
+    max-height: 32px;
+    text-decoration: none;
+}
+
+#ctrls-point-2-inner {
+    /* display: none; */
+    max-height: 0;
+    overflow: hidden;
+    transition: 0.2s ease-in-out;
+}
+
+#ctrls-point-2-hidden.hidden {
+    max-height: 0;
+    /* display: none; */
+    transition: 0.2s ease-in-out;
+}
+
+#ctrls-point-2-inner.hidden {
+    /* display: block; */
+    max-height: 100px;
+    overflow: hidden;
+    transition: 0.2s ease-in-out;
+}
+
+.closable-label {
+    display: flex;
+    justify-content: space-between;
+}
+
+.clickable-label {
+    cursor: pointer;
+    font-weight: 600;
+    color: #201f1f80;
+    text-decoration: none;
+}
+
+.clickable-label:hover {
+    color: #201f1f;
+    text-decoration: none;
+}

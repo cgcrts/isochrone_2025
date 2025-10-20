@@ -1,5 +1,6 @@
 const mapElem = document.getElementById("map");
-const HRDF_SERVER_URL = "https://iso.hepiapp.ch/api/";
+//const HRDF_SERVER_URL = "https://iso.hepiapp.ch/api/";
+const HRDF_SERVER_URL = "http://localhost:8100/";
 
 /** Pretty Palettes ! */
 const palette1 = [

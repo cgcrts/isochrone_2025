@@ -1,0 +1,126 @@
+/* Legend */
+.legend-container {
+    background-color: #f9f9f9;
+    border: 2px solid #c8c8c8;
+    border-radius: 16px;
+    bottom: 32px;
+    box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.17);
+    /* display: flex; */
+    /* flex-direction: row; */
+    padding: 8px;
+    right: 32px;
+    position: fixed;
+    z-index: 1000;
+    width: min-content;
+}
+
+.legend-container.hidden {
+    display: none;
+}
+
+.legend-container .hidden {
+    display: none;
+}
+
+.legend-container .legend-optimal-time {
+    text-align: center;
+}
+
+.legend-container .legend-optimal-time strong {
+    font-weight: 550;
+}
+
+.column-wrapper {
+    display: flex;
+    flex-direction: row;
+}
+
+.column-wrapper .column {
+    display: flex;
+    flex-direction: column;
+    max-width: 100px;
+}
+
+#legend-show-max-distance ~ label {
+    text-align: center;
+}
+
+.legend {
+    border: 0;
+    border-radius: 8px;
+    margin: 0;
+}
+
+.legend-entry {
+    color: black;
+    height: 40px;
+    /* line-height: 20px; */
+    text-align: center;
+    width: 96px;
+    margin-left: 2px;
+    margin-right: 2px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.legend-entry:first-of-type {
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.legend-entry:last-of-type {
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
+.legend-entry p {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.legend-entry .timelimit {
+    /* line-height: 24px; */
+    /* line-height: 36px; */
+    flex-grow: 2;
+    font-size: 1em;
+}
+
+.legend-entry .area {
+    flex-grow: 1;
+    font-size: 0.8em;
+}
+
+.legend-entry .area span {
+    font-size: 12px;
+}
+
+.legend-controls {
+    align-items: center;
+    width: calc(96px - 2px);
+    display: block;
+}
+
+.legend-controls .slider {
+    height: 24px;
+}
+
+.legend-controls.hidden {
+    display: none;
+}
+
+.optimal-container {
+    text-align: center;
+}
+
+.optimal-container.hidden {
+    display: none;
+}
+
+.optimal-container strong {
+    display: block;
+    font-weight: 600;
+    font-size: 0.9em;
+}

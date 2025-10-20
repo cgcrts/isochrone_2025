@@ -16,28 +16,36 @@
             href="https://unpkg.com/leaflet/dist/leaflet.css"
         />
         <link rel="stylesheet" type="text/css" href="./assets/css/app.css" />
+        <link rel="stylesheet" type="text/css" href="./assets/css/form.css" />
+        <link rel="stylesheet" type="text/css" href="./assets/css/legend.css" />
     </head>
 
-    <body class="marker-cursor">
-        <div id="map"></div>
-        <!-- Toaster -->
-        <div id="toast" class="hidden">
-            <div class="loader-container">
-                <div class="loader"></div>
-            </div>
-            <div id="toast-content">
-                <!-- <div id="toast-spacer"></div> -->
-                <p>Calcul de l'isochrone en cours...</p>
-                <p class="hidden noline">Calcul toujours en cours...</p>
-                <p class="hidden noline">Encore quelques secondes...</p>
-                <p class="hidden noline">C'est long...</p>
-                <p class="hidden noline">C'est long !</p>
-                <p class="hidden noline">C'est vraiment long...</p>
-                <!-- <p class="hidden">I'm an awesome toast!</p> -->
-                <!-- <p class="hidden">I'm an awesome toast!</p> -->
+    <body>
+        <div class="map-container">
+            <div id="map"></div>
+
+            <!-- Toaster -->
+            <div id="toast" class="hidden">
+                <div class="loader-container">
+                    <div class="loader"></div>
+                </div>
+                <div id="toast-content">
+                    <!-- <div id="toast-spacer"></div> -->
+                    <p>Calcul de l'isochrone en cours...</p>
+                    <p class="hidden noline">Calcul toujours en cours...</p>
+                    <p class="hidden noline">Encore quelques secondes...</p>
+                    <p class="hidden noline">C'est long...</p>
+                    <p class="hidden noline">C'est long !</p>
+                    <p class="hidden noline">C'est vraiment long...</p>
+                    <!-- <p class="hidden">I'm an awesome toast!</p> -->
+                    <!-- <p class="hidden">I'm an awesome toast!</p> -->
+                </div>
             </div>
         </div>
+
+
         <!-- Form -->
+
         <div class="form-container-outer" id="form-container-outer">
             <div class="form-container">
                 <h2>Calculer une carte isochrone</h2>
@@ -206,6 +214,12 @@
             </div>
         </div>
         <!-- Legend -->
+
+        <div class="legendContainer">
+            <div class="legendV2" id="legend"></div>
+            <div class="legendV2" id="legend-2"></div>
+        </div>
+
         <div class="legend-container hidden" id="legend-container">
             <div class="column-wrapper">
                 <div class="column">
@@ -214,9 +228,7 @@
                         <span class="optimal-date">2025-01-01</span><br />
                         <span class="optimal-time">20:00</span>
                     </div>
-                    <div class="legend" id="legend">
-                        <!-- <div class="legend-entry" style="background-color: green;">30 min.</div> -->
-                        <!-- <div class="legend-entry" style="background-color: red;">30 min.</div> -->
+                    <div class="legend" id="legend-legacy">
                     </div>
                     <div class="legend-controls hidden" id="legend-controls-1">
                         <input
@@ -237,10 +249,7 @@
                         <span class="optimal-date">2025-01-01</span><br />
                         <span class="optimal-time">20:00</span>
                     </div>
-                    <div class="legend" id="legend-2">
-                        <!-- <div class="legend-entry" style="background-color: green;">30 min.</div> -->
-                        <!-- <div class="legend-entry" style="background-color: red;">30 min.</div> -->
-                    </div>
+                    <div class="legend" id="legend-legacy-2"></div>
                     <div class="legend-controls hidden" id="legend-controls-2">
                         <input
                             type="range"
