@@ -24,57 +24,23 @@
         <div class="formContainer">
             <form id="form">
                 <div class="formGrid" id="simpleOptions">
-                    <div id="ctrls-point-1" class="form-group">
-                        <label>Point d'origine n°1</label>
+                    <div class="form-group" id="ctrls-point-1">
+                        <label>Lieu de départ n°1</label>
                         <div style="display: flex; justify-content: space-between;">
-                            <button
-                                    class="btn btn-secondary"
-                                    id="select-origin-point-1"
-                                    type="button"
-                                    style="width: 80%"
-                            >
+                            <button class="btn btn-secondary" id="select-origin-point-1" type="button">
                                 <img src="./assets/images/origin-point.png" width="15" alt="origin point"/>
                                 Choisir le point d'origine
                             </button>
-                            <button
-                                    class="btn btn-secondary"
-                                    id="lock-origin-point-1"
-                                    type="button"
-                                    style="width: 18%"
-                            >
-                                <img src="./assets/images/crosshair.png" width="15" alt="crosshair"/>
-                            </button>
-                        </div>
-                        <div class="origin-point-coord">
-                            Coordonnées :
-                            <span id="origin-point-coord-value-1">-</span>
                         </div>
                     </div>
 
-                    <div id="ctrls-point-2" class="form-group">
-                        <label>Point d'origine n°2</label>
+                    <div class="form-group disabled" id="ctrls-point-2">
+                        <label>Lieu de départ n°2 (optionnel)</label>
                         <div style="display: flex; justify-content: space-between;">
-                            <button
-                                    class="btn btn-secondary"
-                                    id="select-origin-point-2"
-                                    type="button"
-                                    style="width: 80%"
-                            >
+                            <button disabled class="btn btn-secondary" id="select-origin-point-2" type="button">
                                 <img src="./assets/images/origin-point.png" width="15" alt="origin point"/>
                                 Choisir le point d'origine
                             </button>
-                            <button
-                                    class="btn btn-secondary"
-                                    id="lock-origin-point-2"
-                                    type="button"
-                                    style="width: 18%"
-                            >
-                                <img src="./assets/images/crosshair.png" width="15" alt="crosshair"/>
-                            </button>
-                        </div>
-                        <div class="origin-point-coord">
-                            Coordonnées :
-                            <span id="origin-point-coord-value-2">-</span>
                         </div>
                     </div>
 
@@ -84,8 +50,8 @@
                     </div>
                 </div>
 
-                <div class="form-checkbox-advanced">
-                    <input type="checkbox" id="advancedOptionsSelect" />
+                <div class="formCheckbox advancedOptionsCheckbox">
+                    <input type="checkbox" class="formCheckboxInput" id="advancedOptionsSelect">
                     <label for="advancedOptionsSelect">Options avancées</label>
                 </div>
 
@@ -99,16 +65,23 @@
                         <label for="isochrone-interval">Intervalle entre les isochrones</label>
                         <select id="isochrone-interval" required></select>
                     </div>
-                    <div class="form-checkbox">
-                        <input type="checkbox" id="find-optimal" />
-                        <label for="find-optimal">Surface optimale</label>
+                    <div class="form-group">
+                        <label>Heure de départ élargie</label>
+                        <div class="formCheckbox">
+                            <input type="checkbox" class="formCheckboxInput" id="find-optimal" />
+                            <label for="find-optimal">Départ entre -30' et +30'</label>
+                        </div>
                     </div>
+
                 </div>
 
-                <button class="btn" id="submit-button" type="submit">
-                    <img src="./assets/images/target.png" width="20" height="20" alt="target"/>
-                    Calculer
-                </button>
+                <div class="submitButtonContainer">
+                    <button class="btn" id="submit-button" type="submit">
+                        <img src="./assets/images/target.png" width="20" height="20" alt="target"/>
+                        Calculer
+                    </button>
+                </div>
+
             </form>
         </div>
 
@@ -134,176 +107,6 @@
             </div>
         </div>
 
-
-        <!-- Form -->
-
-        <div class="form-container-outer" id="form-container-outer">
-            <div class="form-container">
-                <h2>Calculer une carte isochrone</h2>
-
-                <!--<form id="form">
-                    <div id="ctrls-point-1" class="form-group">
-                        <label>Point d'origine n°1</label>
-                        <div
-                            style="
-                                display: flex;
-                                justify-content: space-between;
-                            "
-                        >
-                            <button
-                                class="btn btn-secondary"
-                                id="select-origin-point-1"
-                                type="button"
-                                style="width: 80%"
-                            >
-                                <img
-                                    src="./assets/images/origin-point.png"
-                                    width="15"
-                                />
-                                Choisir le point d'origine
-                            </button>
-                            <button
-                                class="btn btn-secondary"
-                                id="lock-origin-point-1"
-                                type="button"
-                                style="width: 18%"
-                            >
-                                <img
-                                    src="./assets/images/crosshair.png"
-                                    width="15"
-                                />
-                            </button>
-                        </div>
-                        <p class="origin-point-coord">
-                            Coordonnées :
-                            <span id="origin-point-coord-value-1">-</span>
-                        </p>
-                    </div>
-                    <div id="ctrls-point-2" class="form-group">
-                        <div id="ctrls-point-2-hidden">
-                            <a href="#" id="add-origin-point-2" class="btn"
-                                >+ Ajouter un point d'origine</a
-                            >
-                        </div>
-                        <div id="ctrls-point-2-inner">
-                            <div class="closable-label">
-                                <label>Point d'origine n°2</label>
-                                <a
-                                    href="#"
-                                    id="close-origin-point-2"
-                                    class="clickable-label"
-                                    >X</a
-                                >
-                            </div>
-                            <div
-                                style="
-                                    display: flex;
-                                    justify-content: space-between;
-                                "
-                            >
-                                <button
-                                    class="btn btn-secondary"
-                                    id="select-origin-point-2"
-                                    type="button"
-                                    style="width: 80%"
-                                >
-                                    <img
-                                        src="./assets/images/origin-point.png"
-                                        width="15"
-                                    />
-                                    Choisir le point d'origine
-                                </button>
-                                <button
-                                    class="btn btn-secondary"
-                                    id="lock-origin-point-2"
-                                    type="button"
-                                    style="width: 18%"
-                                >
-                                    <img
-                                        src="./assets/images/crosshair.png"
-                                        width="15"
-                                    />
-                                </button>
-                            </div>
-                            <p class="origin-point-coord">
-                                Coordonnées :
-                                <span id="origin-point-coord-value-2">-</span>
-                            </p>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="departure-at"
-                            >Date et heure de départ</label
-                        >
-                        <input
-                            type="datetime-local"
-                            id="departure-at"
-                            required
-                        />
-                    </div>
-
-                    <div class="form-group">
-                        <label for="time-limit"
-                            >Limite de temps (en minutes)</label
-                        >
-                        <input
-                            type="number"
-                            id="time-limit"
-                            min="10"
-                            max="480"
-                            value="60"
-                            required
-                        />
-                    </div>
-
-                    <div class="form-group">
-                        <label for="isochrone-interval"
-                            >Intervalle entre les isochrones</label
-                        >
-                        <select id="isochrone-interval" required></select>
-                    </div>
-                    <div class="form-checkbox">
-                        <input type="checkbox" id="find-optimal" />
-                        <label for="find-optimal">Surface optimale</label>
-                    </div>
-                    <div class="mt-6">
-                        <button class="btn" id="submit-button" type="submit">
-                            <img
-                                src="./assets/images/target.png"
-                                width="20"
-                                height="20"
-                            />
-                            Calculer
-                        </button>
-                    </div>
-                </form>-->
-            </div>
-
-            <button class="toggle-form-display" id="toggle-form-display">
-                <img src="./assets/images/double-caret.svg" />
-            </button>
-
-            <div class="form-container coord-mobile">
-                <p class="origin-point-coord">
-                    Coordonnées :
-                    <span id="origin-point-coord-value-mobile">-</span>
-                </p>
-                <button
-                    class="btn btn-secondary btn-validate-aim"
-                    id="validate-aim"
-                    type="button"
-                    style="width: 100%"
-                >
-                    <img
-                        src="./assets/images/check-mark.png"
-                        width="20"
-                        height="20"
-                    />
-                    Valider
-                </button>
-            </div>
-        </div>
         <!-- Legend -->
 
         <div class="legendContainer hidden" id="legendContainer">
@@ -330,20 +133,7 @@
                         <span class="optimal-date">2025-01-01</span><br />
                         <span class="optimal-time">20:00</span>
                     </div>
-                    <div class="legend" id="legend-legacy">
-                    </div>
-                    <div class="legend-controls hidden" id="legend-controls-1">
-                        <input
-                            type="range"
-                            min="0"
-                            max="100"
-                            value="60"
-                            class="slider"
-                            id="opacity-slider-1"
-                            data-isoindex="0"
-                        />
-                        <!-- Max : <span id="legend-max-distance-1">-</span> km -->
-                    </div>
+                    <div class="legend" id="legend-legacy"></div>
                 </div>
                 <div class="column">
                     <div id="optimal-legend-2" class="optimal-container hidden">
@@ -352,18 +142,6 @@
                         <span class="optimal-time">20:00</span>
                     </div>
                     <div class="legend" id="legend-legacy-2"></div>
-                    <div class="legend-controls hidden" id="legend-controls-2">
-                        <input
-                            type="range"
-                            min="0"
-                            max="100"
-                            value="60"
-                            class="slider"
-                            id="opacity-slider-2"
-                            data-isoindex="1"
-                        />
-                        <!-- Max : <span id="legend-max-distance-2">-</span> km -->
-                    </div>
                 </div>
             </div>
             <div class="form-checkbox">

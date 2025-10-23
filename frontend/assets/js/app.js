@@ -24,9 +24,8 @@ const legendContainer = document.getElementById("legendContainer");
 const legend = document.getElementById("legend");
 const legend2 = document.getElementById("legend-2");
 // Form.
-const formContainerOuter = document.getElementById("form-container-outer");
-const toggleFormDisplay = document.getElementById("toggle-form-display");
 const formElem = document.getElementById("form");
+const ctrlsPoint2 = document.getElementById("ctrls-point-2");
 const selectOriginPointElem1 = document.getElementById("select-origin-point-1");
 const selectOriginPointElem2 = document.getElementById("select-origin-point-2");
 
@@ -41,9 +40,6 @@ const departureAtInput = document.getElementById("departure-at");
 const timeLimitInput = document.getElementById("time-limit");
 const isochroneIntervalInput = document.getElementById("isochrone-interval");
 
-const btnAimMode1 = document.getElementById("lock-origin-point-1");
-const btnAimMode2 = document.getElementById("lock-origin-point-2");
-const btnValidateAim = document.getElementById("validate-aim");
 const findOptimalInput = document.getElementById("find-optimal");
 const submitButton = document.getElementById("submit-button");
 
@@ -52,11 +48,6 @@ const advancedOptions = document.getElementById("advancedOptions");
 
 /* Second point controls */
 
-const ctrlsPointTwo = document.getElementById("ctrls-point-2");
-//const ctrlsPointTwoHidden = document.getElementById("ctrls-point-2-hidden");
-//const ctrlsPointTwoInner = document.getElementById("ctrls-point-2-inner");
-//const closeOriginPoint2 = document.getElementById("close-origin-point-2");
-let isAiming = false;
 // let originPointOffset = [0, 0];
 // let originPointOffset2 = [0, 0];
 let originPointOffsets = [
@@ -71,18 +62,8 @@ let furthestMarkers = [null, null];
 let furthestMarkersLayerGroup = null;
 
 let selectOriginPointElems = [selectOriginPointElem1, selectOriginPointElem2];
-let originPointCoordValueElem1 = document.getElementById(
-    "origin-point-coord-value-1",
-);
-let originPointCoordValueElem2 = document.getElementById(
-    "origin-point-coord-value-2",
-);
-let originPointCoordValueElems = [
-    originPointCoordValueElem1,
-    originPointCoordValueElem2,
-];
 
-let originPointMarker = null;
+//let originPointMarker = null;
 let isochronesLayer = null;
 // let originPointCoord = null;
 // let originPointCoord2 = null;
@@ -92,12 +73,11 @@ let abortController = new AbortController();
 let legendControls_opacitySliders = document.querySelectorAll(
     '.legend-controls input[type="range"]',
 );
+let isFirstOriginPointSelected = false;
 
 let isMapMoving = false;
 
 let onMarkerPlacementEndCallback = null;
-
-const spinner = `<div class="lds-dual-ring"></div>`;
 
 const customMarker = L.icon({
     iconUrl: "./assets/images/marker.png",
@@ -149,6 +129,7 @@ const ResetToaster = () => {
 };
 
 // Different openstreetmap tiles
+/*
 var OpenStreetMap_Mapnik = L.tileLayer(
     "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
     {
@@ -180,6 +161,7 @@ var Esri_WorldGrayCanvas = L.tileLayer(
         maxZoom: 16,
     },
 );
+*/
 var CartoDB_Positron = L.tileLayer(
     "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
     {
@@ -326,6 +308,8 @@ const getRequestParams = (idx = 0) => {
 
     return params;
 };
+
+console.log(originPointCoords)
 
 const displayIsochrones = async (isochroneMap, index = 0) => {
     let legend_div = index === 0 ? legend : legend2;
@@ -631,14 +615,6 @@ const setCoordValue = (index, lat, lng) => {
         //Abort
         return;
     }
-    if (lat === null || lng === null) {
-        originPointCoordValueElems[index].innerHTML = "-";
-    }
-    originPointCoordValueElems[index].innerHTML =
-        `${lat.toFixed(2)}°N, ${lng.toFixed(2)}°E`;
-    if (originPointCoordValueMobileElem !== null) {
-        originPointCoordValueMobileElem.innerHTML = `${lat.toFixed(2)}°N, ${lng.toFixed(2)}°E`;
-    }
 };
 
 /**
@@ -646,16 +622,20 @@ const setCoordValue = (index, lat, lng) => {
  * @param {number} markerIndex The index of the marker (0 for first, 1 for second)
  */
 const EndMarkerPlacement = function (markerIndex) {
-    if (isTabletResolution()) {
-        showForm();
-    }
     mapElem.classList.remove(`cursor-marker-${markerIndex}`);
     selectOriginPointElems[markerIndex].classList.remove(
         "selecting-origin-point",
     );
     selectOriginPointElems[markerIndex].innerHTML =
-        `<img src="./assets/images/origin-point.png" width="15"> Changer de point d'origine`;
-    // originPointCoordValueElems[markerIndex].innerHTML = `${originPointCoords[markerIndex][0].toFixed(8)} ${originPointCoords[markerIndex][1].toFixed(8)}`;
+        `<img src="./assets/images/origin-point.png" width="15"> ${originPointCoords[markerIndex][0].toFixed(2)}°N, ${originPointCoords[markerIndex][1].toFixed(2)}°E`;
+
+    console.log(markerIndex)
+
+    if (markerIndex === 0) {
+        ctrlsPoint2.classList.remove('disabled')
+        ctrlsPoint2.querySelector("button").disabled = false;
+    }
+
     setCoordValue(
         markerIndex,
         originPointCoords[markerIndex][0],
@@ -680,28 +660,6 @@ const StartMarkerPlacement = (markerIndex) => {
 };
 
 /**
- * Returns true if the resolution is mobile, false otherwise.
- * @returns {boolean} True if the resolution is mobile, false otherwise.
- */
-const isMobileResolution = () => {
-    if (screen.width < 768) {
-        return true;
-    }
-    return false;
-};
-
-/**
- * Returns true if the resolution is tablet, false otherwise.
- * @returns {boolean} True if the resolution is tablet, false otherwise.
- */
-const isTabletResolution = () => {
-    if (screen.width < 960) {
-        return true;
-    }
-    return false;
-};
-
-/**
  * Move the map view to a given coordinate.
  * @param {number} lat The latitude of the new center.
  * @param {number} lng The longitude of the new center.
@@ -710,17 +668,6 @@ const isTabletResolution = () => {
 const MoveMapToPoint = (lat, lng, animate = true) => {
     isMapMoving = true;
     map.setView([lat, lng], undefined, { animate: animate });
-};
-
-/**
- * Toggle the display of the form.
- */
-const ToggleFormDisplay = () => {
-    if (formContainerOuter.classList.contains("hide-form")) {
-        showForm();
-    } else {
-        hideForm();
-    }
 };
 
 /**
@@ -734,40 +681,6 @@ const resetCoordinates = (markerIndex) => {
         originPointCoords[markerIndex][0],
         originPointCoords[markerIndex][1],
     );
-};
-
-/**
- * Validate the marker placement when using aim mode.
- */
-const ValidateAim = () => {
-    if (isAiming) {
-        //Disable aiming mode.
-        isAiming = false;
-        btnAimMode1.classList.remove("active");
-        btnAimMode2.classList.remove("active");
-        // isAiming = false;
-        if (isTabletResolution()) {
-            showForm();
-        }
-    }
-};
-
-/**
- * Hide the form.
- */
-const hideForm = () => {
-    formContainerOuter.classList.add("hide-form");
-    if (isAiming) {
-        formContainerOuter.classList.add("aiming");
-    }
-};
-
-/**
- * Show the form.
- */
-const showForm = () => {
-    formContainerOuter.classList.remove("hide-form");
-    formContainerOuter.classList.remove("aiming");
 };
 
 /**
@@ -864,11 +777,6 @@ const changeToasterText = (text, duration = 0) => {
 
 // Event listeners.
 
-// Displays or hides the form.
-toggleFormDisplay.addEventListener("click", () => {
-    ToggleFormDisplay();
-});
-
 // Ensures that min and max values cannot be bypassed.
 timeLimitInput.addEventListener("change", () => {
     if (timeLimitInput.value < 10) {
@@ -883,52 +791,26 @@ timeLimitInput.addEventListener("change", () => {
 // Handles the application's behavior when a point of origin is being selected.
 // 1st isochrone
 selectOriginPointElem1.addEventListener("click", () => {
-    if (isAiming) {
-        //Disable aiming mode.
-        isAiming = false;
-        btnAimMode1.classList.remove("active");
-        btnAimMode2.classList.remove("active");
-    }
     if (selectOriginPointElem1.classList.contains("selecting-origin-point")) {
         EndMarkerPlacement(0);
-        if (isTabletResolution()) {
-            showForm();
-        }
     } else {
         StartMarkerPlacement(0);
-        if (isTabletResolution()) {
-            hideForm();
-        }
     }
 });
 
 // 2nd isochrone
 selectOriginPointElem2.addEventListener("click", () => {
-    if (isAiming) {
-        //Disable aiming mode.
-        isAiming = false;
-        btnAimMode1.classList.remove("active");
-        btnAimMode2.classList.remove("active");
-    }
     if (selectOriginPointElem2.classList.contains("selecting-origin-point")) {
         EndMarkerPlacement(1);
-        if (isTabletResolution()) {
-            showForm();
-        }
+
     } else {
         StartMarkerPlacement(1);
-        if (isTabletResolution()) {
-            hideForm();
-        }
     }
 });
 
 /** Triggered when the map is being dragged around
  */
 map.on("dragstart", (_) => {
-    if (!isAiming) {
-        return;
-    }
     let index = isSelectingOriginPoint_markerIndex;
     if (markers[index] !== null) {
         originPointOffsets[index][0] =
@@ -945,9 +827,6 @@ map.on("dragstart", (_) => {
  * Triggered when the map is moved.
  */
 map.on("move", (_) => {
-    if (!isAiming || isMapMoving) {
-        return;
-    }
     const index = isSelectingOriginPoint_markerIndex;
 
     //Remove current marker
@@ -968,7 +847,7 @@ map.on("move", (_) => {
     mapElem.classList.remove(`cursor-marker-${index}`);
     const btn = selectOriginPointElems[index];
     btn.classList.remove("selecting-origin-point");
-    btn.innerHTML = `<img src="./assets/images/origin-point.png" width="15"> Changer de point d'origine`;
+    //btn.innerHTML = `<img src="./assets/images/origin-point.png" width="15"> Changer de point d'origine`;
     setCoordValue(
         index,
         originPointCoords[index][0],
@@ -1003,74 +882,6 @@ map.on("click", (e) => {
     );
     //Clean up
     EndMarkerPlacement(index);
-});
-
-btnAimMode1.addEventListener("click", () => {
-    //Disable aim mode of other marker if enabled
-    btnAimMode2.classList.remove("active");
-
-    if (isAiming && isSelectingOriginPoint_markerIndex === 0) {
-        btnAimMode1.classList.remove("active");
-        isAiming = false;
-        if (isTabletResolution()) {
-            showForm();
-        }
-    } else {
-        //Enable aim mode
-        btnAimMode1.classList.add("active");
-        isAiming = true;
-        isSelectingOriginPoint_markerIndex = 0;
-        if (markers[0] === null) {
-            //Marker isn't on map, place it at the current center.
-            originPointCoords[0] = [map.getCenter().lat, map.getCenter().lng];
-            markers[0] = createMarker(
-                originPointCoords[0][0],
-                originPointCoords[0][1],
-                0,
-            );
-        }
-        MoveMapToPoint(originPointCoords[0][0], originPointCoords[0][1], true);
-        EndMarkerPlacement(0);
-        if (isTabletResolution()) {
-            hideForm();
-        }
-    }
-});
-
-btnAimMode2.addEventListener("click", () => {
-    //Disable aim mode of other marker if enabled
-    btnAimMode1.classList.remove("active");
-    if (isAiming && isSelectingOriginPoint_markerIndex === 1) {
-        //Disable aim mode
-        btnAimMode2.classList.remove("active");
-        isAiming = false;
-        if (isTabletResolution()) {
-            showForm();
-        }
-    } else {
-        //Enable aim mode
-        btnAimMode2.classList.add("active");
-        isAiming = true;
-        isSelectingOriginPoint_markerIndex = 1;
-        if (markers[1] === null) {
-            //Marker isn't on map, place it at the current center.
-            originPointCoords[1] = [map.getCenter().lat, map.getCenter().lng];
-            markers[1] = createMarker(
-                originPointCoords[1][0],
-                originPointCoords[1][1],
-                1,
-            );
-        }
-        MoveMapToPoint(originPointCoords[1][0], originPointCoords[1][1], true);
-        EndMarkerPlacement(1);
-        if (isTabletResolution()) {
-            hideForm();
-        }
-    }
-});
-
-btnValidateAim.addEventListener("click", () => {
-    ValidateAim();
 });
 
 formElem.addEventListener("submit", async (e) => {

@@ -48,10 +48,9 @@ input[type="radio"] {
 }
 
 .btn {
-    background-color: #201f1f;
-    border: 2px solid #201f1f;
-    border-radius: 8px;
+    background-color: #564946;
     color: white;
+    border-radius: 8px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -60,23 +59,18 @@ input[type="radio"] {
     text-align: center;
     transition: 0.2s ease-in-out;
     width: 100%;
+    max-width: 400px;
     gap: 6px;
 }
 
-.btn:hover {
+.btn:hover:not(:disabled) {
     cursor: pointer;
     opacity: 0.9;
 }
 
 .btn:disabled {
-    background-color: #908b8b;
-    border-color: #908b8b;
-    opacity: 0.7;
-}
-
-.btn:disabled:hover {
-    cursor: default;
-    opacity: 0.7;
+    background-color: lightgrey;
+    color: grey;
 }
 
 .btn-secondary {
@@ -84,7 +78,7 @@ input[type="radio"] {
     color: #201f1f;
 }
 
-.btn-secondary:hover {
+.btn-secondary:hover:not(:disabled) {
     background-color: #eeeded;
     border-color: rgba(32, 31, 31, 0.6);
     opacity: 1;
