@@ -20,7 +20,7 @@ const palette2 = [
     "#cd2f88",
 ];
 
-const legendContainer = document.getElementById("legend-container");
+const legendContainer = document.getElementById("legendContainer");
 const legend = document.getElementById("legend");
 const legend2 = document.getElementById("legend-2");
 // Form.
@@ -47,12 +47,15 @@ const btnValidateAim = document.getElementById("validate-aim");
 const findOptimalInput = document.getElementById("find-optimal");
 const submitButton = document.getElementById("submit-button");
 
+const advancedOptionsSelect = document.getElementById("advancedOptionsSelect");
+const advancedOptions = document.getElementById("advancedOptions");
+
 /* Second point controls */
 
 const ctrlsPointTwo = document.getElementById("ctrls-point-2");
-const ctrlsPointTwoHidden = document.getElementById("ctrls-point-2-hidden");
-const ctrlsPointTwoInner = document.getElementById("ctrls-point-2-inner");
-const closeOriginPoint2 = document.getElementById("close-origin-point-2");
+//const ctrlsPointTwoHidden = document.getElementById("ctrls-point-2-hidden");
+//const ctrlsPointTwoInner = document.getElementById("ctrls-point-2-inner");
+//const closeOriginPoint2 = document.getElementById("close-origin-point-2");
 let isAiming = false;
 // let originPointOffset = [0, 0];
 // let originPointOffset2 = [0, 0];
@@ -151,7 +154,7 @@ var OpenStreetMap_Mapnik = L.tileLayer(
     {
         maxZoom: 19,
         attribution:
-            '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+            '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
     },
 );
 var Stadia_AlidadeSmooth = L.tileLayer(
@@ -181,7 +184,7 @@ var CartoDB_Positron = L.tileLayer(
     "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
     {
         attribution:
-            '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+            '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
         subdomains: "abcd",
         maxZoom: 20,
     },
@@ -382,8 +385,8 @@ const displayIsochrones = async (isochroneMap, index = 0) => {
     }
 
     // Show the opacity slider for the current isochrone map
-    let slider = document.querySelector(`#legend-controls-${index + 1}`);
-    slider.classList.remove("hidden");
+    //let slider = document.querySelector(`#legend-controls-${index + 1}`);
+    //slider.classList.remove("hidden");
 
     // Merge the polygons
     let aborted = false;
@@ -398,7 +401,7 @@ const displayIsochrones = async (isochroneMap, index = 0) => {
         }
         try {
             setAreaInLegend(
-                toKm2(isochroneMap.areas[len - i - 1]) + " km²",
+                toKm2(isochroneMap.areas[len - i - 1]),
                 index,
                 i,
             );
@@ -425,7 +428,7 @@ const displayIsochrones = async (isochroneMap, index = 0) => {
  * @param {number} [fix=2] The number of decimal places
  * @returns The converted value
  */
-const toKm2 = (val, fix = 2) => {
+const toKm2 = (val, fix = 0) => {
     return (val / 1000000).toFixed(fix);
 };
 
@@ -435,7 +438,7 @@ const toKm2 = (val, fix = 2) => {
  * @param {number} [fix=2] The number of decimal places
  * @returns The converted value
  */
-const toKm = (val, fix = 2) => {
+const toKm = (val, fix = 0) => {
     return (val / 1000).toFixed(fix);
 };
 
@@ -520,7 +523,7 @@ const createLegend = (color, time_limit, time_limit_index, isoIndex = 0) => {
     // Create time limit label
     const timeLimitElement = document.createElement("p");
     timeLimitElement.className = "timelimit";
-    timeLimitElement.textContent = `${time_limit} min.`;
+    timeLimitElement.textContent = `${time_limit}`;
     // Create area label
     const areaLabelElement = document.createElement("p");
     areaLabelElement.className = "area";
@@ -632,9 +635,9 @@ const setCoordValue = (index, lat, lng) => {
         originPointCoordValueElems[index].innerHTML = "-";
     }
     originPointCoordValueElems[index].innerHTML =
-        `${lat.toFixed(8)} ${lng.toFixed(8)}`;
+        `${lat.toFixed(2)}°N, ${lng.toFixed(2)}°E`;
     if (originPointCoordValueMobileElem !== null) {
-        originPointCoordValueMobileElem.innerHTML = `${lat.toFixed(8)} ${lng.toFixed(8)}`;
+        originPointCoordValueMobileElem.innerHTML = `${lat.toFixed(2)}°N, ${lng.toFixed(2)}°E`;
     }
 };
 
@@ -1070,20 +1073,6 @@ btnValidateAim.addEventListener("click", () => {
     ValidateAim();
 });
 
-ctrlsPointTwoHidden.addEventListener("click", () => {
-    ctrlsPointTwoHidden.classList.toggle("hidden");
-    ctrlsPointTwoInner.classList.toggle("hidden");
-});
-
-closeOriginPoint2.addEventListener("click", () => {
-    ctrlsPointTwoHidden.classList.toggle("hidden");
-    ctrlsPointTwoInner.classList.toggle("hidden");
-    originPointCoordValueElems[1].innerHTML = "-";
-    removeMarker(1);
-    resetCoordinates(1);
-    originPointCoords[1] = null;
-});
-
 formElem.addEventListener("submit", async (e) => {
     e.preventDefault();
     onStartComputeIsochrone?.();
@@ -1134,5 +1123,13 @@ toggleMaxDistanceCbx.addEventListener("change", (e) => {
         map.removeLayer(furthestMarkersLayerGroup);
     }
 });
+
+advancedOptionsSelect.addEventListener('change', (event) => {
+    if (event.currentTarget.checked) {
+        advancedOptions.style.display = "grid"
+    } else {
+        advancedOptions.style.display = 'none'
+    }
+})
 
 init();

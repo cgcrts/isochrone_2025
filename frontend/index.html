@@ -21,6 +21,97 @@
     </head>
 
     <body>
+        <div class="formContainer">
+            <form id="form">
+                <div class="formGrid" id="simpleOptions">
+                    <div id="ctrls-point-1" class="form-group">
+                        <label>Point d'origine n°1</label>
+                        <div style="display: flex; justify-content: space-between;">
+                            <button
+                                    class="btn btn-secondary"
+                                    id="select-origin-point-1"
+                                    type="button"
+                                    style="width: 80%"
+                            >
+                                <img src="./assets/images/origin-point.png" width="15" alt="origin point"/>
+                                Choisir le point d'origine
+                            </button>
+                            <button
+                                    class="btn btn-secondary"
+                                    id="lock-origin-point-1"
+                                    type="button"
+                                    style="width: 18%"
+                            >
+                                <img src="./assets/images/crosshair.png" width="15" alt="crosshair"/>
+                            </button>
+                        </div>
+                        <div class="origin-point-coord">
+                            Coordonnées :
+                            <span id="origin-point-coord-value-1">-</span>
+                        </div>
+                    </div>
+
+                    <div id="ctrls-point-2" class="form-group">
+                        <label>Point d'origine n°2</label>
+                        <div style="display: flex; justify-content: space-between;">
+                            <button
+                                    class="btn btn-secondary"
+                                    id="select-origin-point-2"
+                                    type="button"
+                                    style="width: 80%"
+                            >
+                                <img src="./assets/images/origin-point.png" width="15" alt="origin point"/>
+                                Choisir le point d'origine
+                            </button>
+                            <button
+                                    class="btn btn-secondary"
+                                    id="lock-origin-point-2"
+                                    type="button"
+                                    style="width: 18%"
+                            >
+                                <img src="./assets/images/crosshair.png" width="15" alt="crosshair"/>
+                            </button>
+                        </div>
+                        <div class="origin-point-coord">
+                            Coordonnées :
+                            <span id="origin-point-coord-value-2">-</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="departure-at">Date et heure de départ</label>
+                        <input type="datetime-local" id="departure-at" required />
+                    </div>
+                </div>
+
+                <div class="form-checkbox-advanced">
+                    <input type="checkbox" id="advancedOptionsSelect" />
+                    <label for="advancedOptionsSelect">Options avancées</label>
+                </div>
+
+                <div class="formGrid" id="advancedOptions">
+                    <div class="form-group">
+                        <label for="time-limit">Limite de temps (en minutes)</label>
+                        <input type="number" id="time-limit" min="10" max="480" value="60" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="isochrone-interval">Intervalle entre les isochrones</label>
+                        <select id="isochrone-interval" required></select>
+                    </div>
+                    <div class="form-checkbox">
+                        <input type="checkbox" id="find-optimal" />
+                        <label for="find-optimal">Surface optimale</label>
+                    </div>
+                </div>
+
+                <button class="btn" id="submit-button" type="submit">
+                    <img src="./assets/images/target.png" width="20" height="20" alt="target"/>
+                    Calculer
+                </button>
+            </form>
+        </div>
+
         <div class="map-container">
             <div id="map"></div>
 
@@ -50,7 +141,7 @@
             <div class="form-container">
                 <h2>Calculer une carte isochrone</h2>
 
-                <form id="form">
+                <!--<form id="form">
                     <div id="ctrls-point-1" class="form-group">
                         <label>Point d'origine n°1</label>
                         <div
@@ -186,7 +277,7 @@
                             Calculer
                         </button>
                     </div>
-                </form>
+                </form>-->
             </div>
 
             <button class="toggle-form-display" id="toggle-form-display">
@@ -215,8 +306,19 @@
         </div>
         <!-- Legend -->
 
-        <div class="legendContainer">
-            <div class="legendV2" id="legend"></div>
+        <div class="legendContainer hidden" id="legendContainer">
+            <div class="legendElement">
+                <div class="legendLabel">Temps de parcours (en minutes)</div>
+                <div class="legendLabel">Surface couverte (en km²)</div>
+                <div class="legendContent">
+                    <div class="legendV2" id="legend"></div>
+                    <div class="legendUnits legend-entry">
+                        <p class="timelimit">min</p>
+                        <p class="area">km²</p>
+                    </div>
+                </div>
+            </div>
+
             <div class="legendV2" id="legend-2"></div>
         </div>
 

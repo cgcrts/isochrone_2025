@@ -10,9 +10,6 @@
 * {
     box-sizing: border-box;
     font-family: "Montserrat", sans-serif;
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 450;
 }
 
 body {
@@ -48,10 +45,6 @@ input[type="radio"] {
 
 .mt-4 {
     margin-top: 1rem;
-}
-
-.mt-6 {
-    margin-top: 1.5rem;
 }
 
 .btn {
@@ -173,10 +166,6 @@ input[type="radio"] {
 }
 
 @media only screen and (max-width: 900px) {
-    * {
-        font-size: 0.9rem;
-    }
-
     :not(.hide-form) .toggle-form-display {
         /* position: fixed; */
         top: -56px;
