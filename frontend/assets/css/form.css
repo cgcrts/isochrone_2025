@@ -38,6 +38,12 @@
     }
 }
 
+.form-group {
+    margin: auto;
+    width: 100%;
+    max-width: 400px;
+}
+
 .formCheckbox {
     display: flex;
     column-gap: 0.5rem;

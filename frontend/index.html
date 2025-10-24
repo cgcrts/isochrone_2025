@@ -66,7 +66,7 @@
                         <select id="isochrone-interval" required></select>
                     </div>
                     <div class="form-group">
-                        <label>Heure de départ élargie</label>
+                        <label>Heure de départ optimale</label>
                         <div class="formCheckbox">
                             <input type="checkbox" class="formCheckboxInput" id="find-optimal" />
                             <label for="find-optimal">Départ entre -30' et +30'</label>
@@ -111,18 +111,26 @@
 
         <div class="legendContainer hidden" id="legendContainer">
             <div class="legendElement">
-                <div class="legendLabel">Temps de parcours (en minutes)</div>
-                <div class="legendLabel">Surface couverte (en km²)</div>
+                <div class="legendLabels">
+                    <div class="legendLabel">Temps de parcours (en minutes) et</div>
+                    <div class="legendLabel">surface couverte (en km²)</div>
+                </div>
+
                 <div class="legendContent">
                     <div class="legendV2" id="legend"></div>
                     <div class="legendUnits legend-entry">
-                        <p class="timelimit">min</p>
-                        <p class="area">km²</p>
+                        <div class="timelimit">min</div>
+                        <div class="area">km²</div>
+                    </div>
+                </div>
+                <div class="legendContent hidden">
+                    <div class="legendV2" id="legend-2"></div>
+                    <div class="legendUnits legend-entry">
+                        <div class="timelimit">min</div>
+                        <div class="area">km²</div>
                     </div>
                 </div>
             </div>
-
-            <div class="legendV2" id="legend-2"></div>
         </div>
 
         <div class="legend-container hidden" id="legend-container">

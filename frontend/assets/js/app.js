@@ -106,14 +106,14 @@ const pin2 = L.icon({
 /** Callbacks */
 
 let onStartComputeIsochrone = () => {
-    console.log("onStartComputeIsochrone trig");
+    //console.log("onStartComputeIsochrone trig");
     findOptimalInput.disabled = true;
     toggleMaxDistanceCbx.checked = false;
     openToaster();
 };
 
 let onFinishComputeIsochrone = () => {
-    console.log("onFinishComputeIsochrone trig");
+    //console.log("onFinishComputeIsochrone trig");
     findOptimalInput.disabled = false;
     closeToaster();
 };
@@ -309,8 +309,6 @@ const getRequestParams = (idx = 0) => {
     return params;
 };
 
-console.log(originPointCoords)
-
 const displayIsochrones = async (isochroneMap, index = 0) => {
     let legend_div = index === 0 ? legend : legend2;
     let pane = index === 0 ? "isochrones0" : "isochrones1";
@@ -364,8 +362,14 @@ const displayIsochrones = async (isochroneMap, index = 0) => {
         legend_div.appendChild(
             createLegend(color, isochrone.time_limit, i, index),
         );
+
         // Add the sublist to the list of all polygons
         all_polygons.push(iso_polygons);
+    }
+
+    // show legend of 2nd isochrone if index is 1
+    if (index === 1) {
+        legend2.parentElement.classList.remove("hidden");
     }
 
     // Show the opacity slider for the current isochrone map
@@ -505,11 +509,11 @@ const createLegend = (color, time_limit, time_limit_index, isoIndex = 0) => {
     // Set legend color
     legendElement.style.backgroundColor = color;
     // Create time limit label
-    const timeLimitElement = document.createElement("p");
+    const timeLimitElement = document.createElement("div");
     timeLimitElement.className = "timelimit";
     timeLimitElement.textContent = `${time_limit}`;
     // Create area label
-    const areaLabelElement = document.createElement("p");
+    const areaLabelElement = document.createElement("div");
     areaLabelElement.className = "area";
     areaLabelElement.id = `area-value-${isoIndex + 1}-${time_limit_index}`;
     // Append elements to legend entry
@@ -629,8 +633,6 @@ const EndMarkerPlacement = function (markerIndex) {
     selectOriginPointElems[markerIndex].innerHTML =
         `<img src="./assets/images/origin-point.png" width="15"> ${originPointCoords[markerIndex][0].toFixed(2)}°N, ${originPointCoords[markerIndex][1].toFixed(2)}°E`;
 
-    console.log(markerIndex)
-
     if (markerIndex === 0) {
         ctrlsPoint2.classList.remove('disabled')
         ctrlsPoint2.querySelector("button").disabled = false;
@@ -654,7 +656,7 @@ const EndMarkerPlacement = function (markerIndex) {
 const StartMarkerPlacement = (markerIndex) => {
     mapElem.classList.add(`cursor-marker-${markerIndex}`);
     selectOriginPointElems[markerIndex].classList.add("selecting-origin-point");
-    selectOriginPointElems[markerIndex].innerHTML = `Annuler`;
+    selectOriginPointElems[markerIndex].innerHTML = `Cliquer sur la carte`;
     isSelectingOriginPoint_markerIndex = markerIndex;
     isSelectingOriginPoint = true;
 };
@@ -826,6 +828,7 @@ map.on("dragstart", (_) => {
 /**
  * Triggered when the map is moved.
  */
+/*
 map.on("move", (_) => {
     const index = isSelectingOriginPoint_markerIndex;
 
@@ -855,6 +858,8 @@ map.on("move", (_) => {
     );
     isSelectingOriginPoint = false;
 });
+
+ */
 
 map.on("moveend", (_) => {
     if (isMapMoving) {

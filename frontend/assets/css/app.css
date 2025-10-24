@@ -194,12 +194,6 @@ input[type="radio"] {
 
     /* Legends */
 
-    .legend-entry {
-        /* height: 16px; */
-        /* line-height: 16px; */
-        width: 72px;
-    }
-
     .legend-controls {
         width: 72px;
     }

@@ -1,18 +1,40 @@
 /* Legend */
 
 .legendContainer {
-    margin: 0.5rem auto;
+    margin: auto;
+    padding: 1rem 0.5rem;
     font-size: 0.9rem;
     width: fit-content;
+}
+
+@media (max-width: 750px) {
+    .legendContainer {
+        max-width: 400px;
+    }
 }
 
 .legendContainer.hidden {
     display: none;
 }
 
+.legendLabels {
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: 0.2rem;
+}
+
+.legendLabel {
+    width: fit-content;
+}
+
 .legendContent {
     display: flex;
     margin-top: 0.5rem;
+    width: calc(100% - 1rem);
+}
+
+.legendContent.hidden {
+    display: none;
 }
 
 .legendV2 {
@@ -72,39 +94,26 @@
 }
 
 .legend-entry {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    row-gap: 0.2rem;
     color: black;
     height: 40px;
-    /* line-height: 20px; */
     text-align: center;
-    min-width: 40px;
     width: 40px;
+    min-width: 40px;
     max-width: 50px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
 }
 
-.legend-entry p {
-    margin: 0;
+.legend-entry div {
     display: flex;
-    flex-direction: column;
     justify-content: center;
-}
-
-.legend-entry .timelimit {
-    /* line-height: 24px; */
-    /* line-height: 36px; */
-    flex-grow: 2;
-    font-size: 1em;
+    align-items: center;
 }
 
 .legend-entry .area {
-    flex-grow: 1;
-    font-size: 0.8em;
-}
-
-.legend-entry .area span {
-    font-size: 12px;
+    font-size: 0.8rem;
 }
 
 .legend-controls {
