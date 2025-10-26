@@ -38,7 +38,10 @@
 }
 
 .legendV2 {
-    display: flex;
+    display: contents;
+}
+
+.legendUnits {
 }
 
 .legend-container {
