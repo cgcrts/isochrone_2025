@@ -1,0 +1,98 @@
+/* About and modal */
+
+.btn.about {
+    max-width: calc(300px - 1rem);
+    margin: 0.5rem;
+}
+
+.aboutContainer {
+    position: absolute;
+    bottom: calc(40px + 1rem);
+    width: 100%;
+    height: calc(500px - 1rem);
+    z-index: 10000;
+}
+
+.aboutContent {
+    margin: auto;
+    padding: 0.5rem;
+    width: calc(100% - 1rem);
+    max-width: 500px;
+    height: 100%;
+    background-color: #F0DCCA;
+    border-radius: 0.5rem;
+}
+
+.aboutTitle {
+    font-weight: 500;
+    padding-bottom: 0.2rem;
+}
+
+.aboutText {
+    font-size: 0.9rem;
+    padding-left: 0.5rem;
+    padding-bottom: 0.5rem;
+}
+
+.about-button {
+    position: fixed;
+    top: 0px;
+    right: 0px;
+    z-index: 1000;
+    width: 36px;
+    height: 36px;
+    cursor: pointer;
+    border: 2px solid #d4dadc;
+    font-size: 1.4em;
+    box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.17);
+}
+
+.about-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1001;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.about-modal.hidden {
+    display: none;
+}
+
+.about-modal-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 24px 16px 16px;
+    background-color: #f9f9f9;
+    border: 2px solid #c8c8c8;
+    border-radius: 16px;
+}
+
+.about-modal-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    cursor: pointer;
+    font-size: 1.4em;
+}
+
+.about-modal-content p {
+    text-align: justify;
+}
+
+.about-modal-content h1 {
+    font-weight: 650;
+    font-size: 1.6em;
+}
+.about-modal-content h2 {
+    font-weight: 600;
+    font-size: 1.4em;
+}
+.about-modal-content h3 {
+    font-weight: 600;
+    font-size: 1.2em;
+}

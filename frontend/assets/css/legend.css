@@ -5,6 +5,7 @@
     padding: 1rem 0.5rem;
     font-size: 0.9rem;
     width: fit-content;
+    max-width: 500px;
 }
 
 @media (max-width: 750px) {
@@ -28,9 +29,16 @@
 }
 
 .legendContent {
+    margin-top: 1rem;
+    font-weight: 500;
+}
+
+.legendBarLabel {
+    margin-bottom: 0.2rem;
+}
+
+.legendBar {
     display: flex;
-    margin-top: 0.5rem;
-    width: calc(100% - 1rem);
 }
 
 .legendContent.hidden {
@@ -38,10 +46,37 @@
 }
 
 .legendV2 {
-    display: contents;
+    display: flex;
+    width: calc(100% - 40px);
+    background-color: #F3F5F2;
 }
 
 .legendUnits {
+    width: 40px;
+}
+
+.legend-entry {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: black;
+    text-align: center;
+    width: 100%;
+}
+
+.legend-entry div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.2rem 0;
+}
+
+.legend-entry .timelimit {
+    border-bottom: 2px solid white;
+}
+
+.legend-entry .area {
+
 }
 
 .legend-container {
@@ -94,29 +129,6 @@
     border: 0;
     border-radius: 8px;
     margin: 0;
-}
-
-.legend-entry {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    row-gap: 0.2rem;
-    color: black;
-    height: 40px;
-    text-align: center;
-    width: 40px;
-    min-width: 40px;
-    max-width: 50px;
-}
-
-.legend-entry div {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.legend-entry .area {
-    font-size: 0.8rem;
 }
 
 .legend-controls {

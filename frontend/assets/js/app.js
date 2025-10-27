@@ -29,13 +29,8 @@ const ctrlsPoint2 = document.getElementById("ctrls-point-2");
 const selectOriginPointElem1 = document.getElementById("select-origin-point-1");
 const selectOriginPointElem2 = document.getElementById("select-origin-point-2");
 
-const toggleMaxDistanceCbx = document.getElementById(
-    "legend-show-max-distance",
-);
+const toggleMaxDistanceCbx = document.getElementById("legend-show-max-distance",);
 
-const originPointCoordValueMobileElem = document.getElementById(
-    "origin-point-coord-value-mobile",
-);
 const departureAtInput = document.getElementById("departure-at");
 const timeLimitInput = document.getElementById("time-limit");
 const isochroneIntervalInput = document.getElementById("isochrone-interval");
@@ -73,7 +68,6 @@ let abortController = new AbortController();
 let legendControls_opacitySliders = document.querySelectorAll(
     '.legend-controls input[type="range"]',
 );
-let isFirstOriginPointSelected = false;
 
 let isMapMoving = false;
 
@@ -172,11 +166,11 @@ var CartoDB_Positron = L.tileLayer(
     },
 );
 
-// Hepia coordinates:
-const centerLat = 46.20956654;
-const centerLng = 6.13536;
+// center of switzerland coordinates:
+const centerLat = 46.87;
+const centerLng = 8.13;
 
-const map = L.map("map").setView([centerLat, centerLng], 11);
+const map = L.map("map").setView([centerLat, centerLng], 8);
 
 // Functions.
 const init = () => {
@@ -227,6 +221,7 @@ const displayIsochroneMap = async (idx, clear = true) => {
             },
         );
         isochroneMap = await response.json();
+        console.log(isochroneMap);
     } catch (err) {
         if (err.name === "AbortError") {
             return;
@@ -254,6 +249,7 @@ const displayIsochroneMap = async (idx, clear = true) => {
     displayIsochrones(isochroneMap, idx);
     if (params.get("find_optimal") === "true") {
         setOptimalDepartInLegend(isochroneMap.departure_at, idx);
+        console.log(document.getElementById(`optimal-legend-${idx + 1}`))
         document
             .getElementById(`optimal-legend-${idx + 1}`)
             .classList.remove("hidden");
@@ -358,9 +354,10 @@ const displayIsochrones = async (isochroneMap, index = 0) => {
             // Add it to the polygon list
             iso_polygons.push(poly.toGeoJSON());
         }
+        const colorWithOpacity = hexToRgba(color, 0.7)
         // Append the legend entry
         legend_div.appendChild(
-            createLegend(color, isochrone.time_limit, i, index),
+            createLegend(colorWithOpacity, isochrone.time_limit, i, index),
         );
 
         // Add the sublist to the list of all polygons
@@ -369,7 +366,7 @@ const displayIsochrones = async (isochroneMap, index = 0) => {
 
     // show legend of 2nd isochrone if index is 1
     if (index === 1) {
-        legend2.parentElement.classList.remove("hidden");
+        legend2.parentElement.parentElement.classList.remove("hidden");
     }
 
     // Show the opacity slider for the current isochrone map
@@ -409,6 +406,20 @@ const displayIsochrones = async (isochroneMap, index = 0) => {
         }
     }
 };
+
+const hexToRgba = (hex, opacity) => {
+    // Remove "#" if present
+    hex = hex.replace(/^#/, '');
+
+    // Parse rgb values
+    const num = parseInt(hex, 16);
+    const r = (num >> 16) & 255;
+    const g = (num >> 8) & 255;
+    const b = num & 255;
+
+    // Return rgba string
+    return `rgba(${r}, ${g}, ${b}, ${opacity})`;
+}
 
 /**
  * Convert a value to kilometers squared.
@@ -484,13 +495,11 @@ const setOptimalDepartInLegend = (value, iso_idx) => {
     // Search for the element
     let n = `#optimal-legend-${iso_idx + 1}`;
     let optimalDepartLabelElement = document.querySelector(n);
-    let dateSpan = optimalDepartLabelElement.querySelector("span.optimal-date");
     let timeSpan = optimalDepartLabelElement.querySelector("span.optimal-time");
     // Split the value between date and time
     let [date, time] = value.split("T");
     // Write the values
-    dateSpan.innerHTML = date;
-    timeSpan.innerHTML = time;
+    timeSpan.innerHTML = time.slice(0, -3);
 };
 
 /**
@@ -729,6 +738,12 @@ const openToaster = () => {
 const closeToaster = () => {
     document.getElementById("toast").classList.add("hidden");
     stopTextCycle();
+    // scroll to map
+    setTimeout(() => {
+        document.getElementById('map').scrollIntoView({behavior: "smooth"})
+        }, 200
+    )
+
 };
 
 let textCycle;

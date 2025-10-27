@@ -16,243 +16,274 @@
             href="https://unpkg.com/leaflet/dist/leaflet.css"
         />
         <link rel="stylesheet" type="text/css" href="./assets/css/app.css" />
+        <link rel="stylesheet" type="text/css" href="./assets/css/about.css" />
         <link rel="stylesheet" type="text/css" href="./assets/css/form.css" />
         <link rel="stylesheet" type="text/css" href="./assets/css/legend.css" />
     </head>
 
     <body>
-        <div class="formContainer">
-            <form id="form">
-                <div class="formGrid" id="simpleOptions">
-                    <div class="form-group" id="ctrls-point-1">
-                        <label>Lieu de départ n°1</label>
-                        <div style="display: flex; justify-content: space-between;">
-                            <button class="btn btn-secondary" id="select-origin-point-1" type="button">
-                                <img src="./assets/images/origin-point.png" width="15" alt="origin point"/>
-                                Choisir le point d'origine
-                            </button>
+        <div class="appContent">
+            <div class="formContainer">
+                <form id="form">
+                    <div class="formGrid" id="simpleOptions">
+                        <div class="form-group" id="ctrls-point-1">
+                            <label>Lieu de départ n°1</label>
+                            <div style="display: flex; justify-content: space-between;">
+                                <button class="btn btn-secondary" id="select-origin-point-1" type="button">
+                                    <img src="./assets/images/origin-point.png" width="15" alt="origin point"/>
+                                    Choisir le point d'origine
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="form-group disabled" id="ctrls-point-2">
+                            <label>Lieu de départ n°2 (optionnel)</label>
+                            <div style="display: flex; justify-content: space-between;">
+                                <button disabled class="btn btn-secondary" id="select-origin-point-2" type="button">
+                                    <img src="./assets/images/origin-point.png" width="15" alt="origin point"/>
+                                    Choisir le point d'origine
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="departure-at">Date et heure de départ</label>
+                            <input type="datetime-local" id="departure-at" required />
                         </div>
                     </div>
 
-                    <div class="form-group disabled" id="ctrls-point-2">
-                        <label>Lieu de départ n°2 (optionnel)</label>
-                        <div style="display: flex; justify-content: space-between;">
-                            <button disabled class="btn btn-secondary" id="select-origin-point-2" type="button">
-                                <img src="./assets/images/origin-point.png" width="15" alt="origin point"/>
-                                Choisir le point d'origine
-                            </button>
+                    <div class="formCheckbox advancedOptionsCheckbox">
+                        <input type="checkbox" class="formCheckboxInput" id="advancedOptionsSelect">
+                        <label for="advancedOptionsSelect">Options avancées</label>
+                    </div>
+
+                    <div class="formGrid" id="advancedOptions">
+                        <div class="form-group">
+                            <label for="time-limit">Limite de temps (en minutes)</label>
+                            <input type="number" id="time-limit" min="10" max="480" value="60" required />
                         </div>
-                    </div>
 
-                    <div class="form-group">
-                        <label for="departure-at">Date et heure de départ</label>
-                        <input type="datetime-local" id="departure-at" required />
-                    </div>
-                </div>
-
-                <div class="formCheckbox advancedOptionsCheckbox">
-                    <input type="checkbox" class="formCheckboxInput" id="advancedOptionsSelect">
-                    <label for="advancedOptionsSelect">Options avancées</label>
-                </div>
-
-                <div class="formGrid" id="advancedOptions">
-                    <div class="form-group">
-                        <label for="time-limit">Limite de temps (en minutes)</label>
-                        <input type="number" id="time-limit" min="10" max="480" value="60" required />
-                    </div>
-
-                    <div class="form-group">
-                        <label for="isochrone-interval">Intervalle entre les isochrones</label>
-                        <select id="isochrone-interval" required></select>
-                    </div>
-                    <div class="form-group">
-                        <label>Heure de départ optimale</label>
-                        <div class="formCheckbox">
-                            <input type="checkbox" class="formCheckboxInput" id="find-optimal" />
-                            <label for="find-optimal">Départ entre -30' et +30'</label>
+                        <div class="form-group">
+                            <label for="isochrone-interval">Intervalle entre les isochrones</label>
+                            <select id="isochrone-interval" required></select>
                         </div>
+                        <div class="form-group">
+                            <label>Heure de départ optimale</label>
+                            <div class="formCheckbox">
+                                <input type="checkbox" class="formCheckboxInput" id="find-optimal" />
+                                <label for="find-optimal">Départ entre -30' et +30'</label>
+                            </div>
+                            <div class="optimalTimeLabel hidden" id="optimal-legend-1">
+                                Départ optimal lieu 1
+                                <span class="optimal-time">20:00</span>
+                            </div>
+                            <div class="optimalTimeLabel hidden" id="optimal-legend-2">
+                                Départ optimal lieu 2
+                                <span class="optimal-time">22:30</span>
+                            </div>
+                        </div>
+
                     </div>
 
-                </div>
+                    <div class="submitButtonContainer">
+                        <button class="btn" id="submit-button" type="submit">
+                            <img src="./assets/images/target.png" width="20" height="20" alt="target"/>
+                            Calculer
+                        </button>
+                    </div>
 
-                <div class="submitButtonContainer">
-                    <button class="btn" id="submit-button" type="submit">
-                        <img src="./assets/images/target.png" width="20" height="20" alt="target"/>
-                        Calculer
-                    </button>
-                </div>
+                </form>
+            </div>
 
-            </form>
-        </div>
+            <div class="map-container">
+                <div id="map"></div>
 
-        <div class="map-container">
-            <div id="map"></div>
-
-            <!-- Toaster -->
-            <div id="toast" class="hidden">
-                <div class="loader-container">
-                    <div class="loader"></div>
-                </div>
-                <div id="toast-content">
-                    <!-- <div id="toast-spacer"></div> -->
-                    <p>Calcul de l'isochrone en cours...</p>
-                    <p class="hidden noline">Calcul toujours en cours...</p>
-                    <p class="hidden noline">Encore quelques secondes...</p>
-                    <p class="hidden noline">C'est long...</p>
-                    <p class="hidden noline">C'est long !</p>
-                    <p class="hidden noline">C'est vraiment long...</p>
-                    <!-- <p class="hidden">I'm an awesome toast!</p> -->
-                    <!-- <p class="hidden">I'm an awesome toast!</p> -->
+                <!-- Toaster -->
+                <div id="toast" class="hidden">
+                    <div class="loader-container">
+                        <div class="loader"></div>
+                    </div>
+                    <div id="toast-content">
+                        <!-- <div id="toast-spacer"></div> -->
+                        <p>Calcul de l'isochrone en cours...</p>
+                        <p class="hidden noline">Calcul toujours en cours...</p>
+                        <p class="hidden noline">Encore quelques secondes...</p>
+                        <p class="hidden noline">C'est long...</p>
+                        <p class="hidden noline">C'est long !</p>
+                        <p class="hidden noline">C'est vraiment long...</p>
+                        <!-- <p class="hidden">I'm an awesome toast!</p> -->
+                        <!-- <p class="hidden">I'm an awesome toast!</p> -->
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <!-- Legend -->
+            <!-- Legend -->
 
-        <div class="legendContainer hidden" id="legendContainer">
-            <div class="legendElement">
+            <div class="legendContainer hidden" id="legendContainer">
                 <div class="legendLabels">
                     <div class="legendLabel">Temps de parcours (en minutes) et</div>
                     <div class="legendLabel">surface couverte (en km²)</div>
                 </div>
 
                 <div class="legendContent">
-                    <div class="legendV2" id="legend"></div>
-                    <div class="legendUnits">
-                        <div class="legend-entry">
-                            <div class="timelimit">min</div>
-                            <div class="area">km²</div>
+                    <div class="legendBarLabel">
+                        Lieu de départ 1
+                    </div>
+                    <div class="legendBar">
+                        <div class="legendV2" id="legend"></div>
+                        <div class="legendUnits">
+                            <div class="legend-entry">
+                                <div class="timelimit">min</div>
+                                <div class="area">km²</div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="legendContent hidden">
-                    <div class="legendV2" id="legend-2"></div>
-                    <div class="legendUnits legend-entry">
-                        <div class="timelimit">min</div>
-                        <div class="area">km²</div>
-                    </div>
-                </div>
-            </div>
-        </div>
 
-        <div class="legend-container hidden" id="legend-container">
-            <div class="column-wrapper">
-                <div class="column">
-                    <div id="optimal-legend-1" class="optimal-container">
-                        <strong>Départ optimal</strong>
-                        <span class="optimal-date">2025-01-01</span><br />
-                        <span class="optimal-time">20:00</span>
+                <div class="legendContent hidden">
+                    <div class="legendBarLabel">
+                        Lieu de départ 2
                     </div>
-                    <div class="legend" id="legend-legacy"></div>
-                </div>
-                <div class="column">
-                    <div id="optimal-legend-2" class="optimal-container hidden">
-                        <strong>&nbsp;</strong>
-                        <span class="optimal-date">2025-01-01</span><br />
-                        <span class="optimal-time">20:00</span>
+                    <div class="legendBar">
+                        <div class="legendV2" id="legend-2"></div>
+                        <div class="legendUnits">
+                            <div class="legend-entry">
+                                <div class="timelimit">min</div>
+                                <div class="area">km²</div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="legend" id="legend-legacy-2"></div>
                 </div>
             </div>
-            <div class="form-checkbox">
-                <input type="checkbox" id="legend-show-max-distance" />
-                <label for="legend-show-max-distance"
+
+            <div class="legend-container hidden" id="legend-container">
+                <div class="column-wrapper">
+                    <div class="column">
+                        <div id="optimal-legend1" class="optimal-container">
+                            <strong>Départ optimal</strong>
+                            <span class="optimal-date">2025-01-01</span><br />
+                            <span class="optimal-time">20:00</span>
+                        </div>
+                        <div class="legend" id="legend-legacy"></div>
+                    </div>
+                    <div class="column">
+                        <div id="optimal-legend2" class="optimal-container hidden">
+                            <strong>&nbsp;</strong>
+                            <span class="optimal-date">2025-01-01</span><br />
+                            <span class="optimal-time">20:00</span>
+                        </div>
+                        <div class="legend" id="legend-legacy-2"></div>
+                    </div>
+                </div>
+                <div class="form-checkbox">
+                    <input type="checkbox" id="legend-show-max-distance" />
+                    <label for="legend-show-max-distance"
                     >Afficher la distance maximale</label
-                >
-            </div>
-        </div>
-        <!-- About -->
-        <button
-            class="btn btn-secondary about-button"
-            id="about-button"
-            onclick="openAboutModal()"
-        >
-            ?
-        </button>
-        <div class="about-modal hidden" id="about-modal">
-            <div class="about-modal-content">
-                <a
-                    class="about-modal-close"
-                    id="about-modal-close"
-                    onclick="closeAboutModal()"
-                >
-                    <svg
-                        width="24px"
-                        height="24px"
-                        viewBox="0 0 24 24"
-                        fill="#484848"
-                        xmlns="http://www.w3.org/2000/svg"
                     >
-                        <path
-                            fill-rule="evenodd"
-                            clip-rule="evenodd"
-                            d="M5.29289 5.29289C5.68342 4.90237 6.31658 4.90237 6.70711 5.29289L12 10.5858L17.2929 5.29289C17.6834 4.90237 18.3166 4.90237 18.7071 5.29289C19.0976 5.68342 19.0976 6.31658 18.7071 6.70711L13.4142 12L18.7071 17.2929C19.0976 17.6834 19.0976 18.3166 18.7071 18.7071C18.3166 19.0976 17.6834 19.0976 17.2929 18.7071L12 13.4142L6.70711 18.7071C6.31658 19.0976 5.68342 19.0976 5.29289 18.7071C4.90237 18.3166 4.90237 17.6834 5.29289 17.2929L10.5858 12L5.29289 6.70711C4.90237 6.31658 4.90237 5.68342 5.29289 5.29289Z"
-                            fill="fill"
-                        />
-                    </svg>
-                </a>
-                <div>
-                    <h1>Calcul d'isochrones</h1>
-                    <p>
-                        <a href="https://iso.hepiapp.ch">Isochrones</a> est un
+                </div>
+            </div>
+
+            <button class="btn btn-secondary about">A propos des données</button>
+            <div class="aboutContainer">
+                <div class="aboutContent">
+                    <div class="aboutTitle">
+                        Calcul d'isochrones
+                    </div>
+                    <div class="aboutText">
+                        <a href="https://iso.hepiapp.ch" target="_blank">Isochrones</a> est un
                         outil interactif pour visualiser les
-                        <a href="https://fr.wikipedia.org/wiki/Carte_isochrone"
-                            >cartes isochrones</a
-                        >
+                        <a href="https://fr.wikipedia.org/wiki/Carte_isochrone" target="_blank">cartes isochrones</a>
                         en Suisse. Ainsi, la plateforme permet de calculer et
                         comparer facilement les zones accessibles, à pieds et en
                         transports publics Suisses, en un temps donné depuis un
                         endroit en Suisse en fonction d'une heure de départ.
-                    </p>
+                    </div>
+                    <div class="aboutTitle">
+                        Source des données
+                    </div>
+                </div>
+            </div>
 
-                    <h2>Source des données</h2>
-                    <p>
-                        Les données proviennent des
-                        <a
-                            href="https://opendata.swiss/fr/dataset/timetable-54-2025-hrdf"
-                            >horaires</a
-                        >
-                        des transports publics Suisses.
-                    </p>
-                    <h3>Code source</h3>
-                    Les codes source pour ce projet se trouvent sur les liens:
-                    <ul>
-                        <li>
-                            <a
-                                href="https://github.com/florianburgener/hrdf-parser"
-                                >Parser HRDF</a
-                            >
-                        </li>
-                        <li>
-                            <a
-                                href="https://github.com/florianburgener/hrdf-routing-engine"
-                                >Planificateur de trajets</a
-                            >
-                        </li>
-                        <li>
-                            <a
-                                href="https://github.com/florianburgener/interactive-isochrone-map"
-                                >Site web</a
-                            >
-                        </li>
-                    </ul>
-                    <h3>Crédits</h3>
-                    <a href="https://github.com/florianburgener">F. Burgener</a
-                    >, A. Durgnat,
-                    <a href="https://github.com/Foebus">M. Gay-Balmaz</a>,
+            <!-- About -->
+            <button
+                    class="btn btn-secondary about-button"
+                    id="about-button"
+                    onclick="openAboutModal()"
+            >
+                ?
+            </button>
+            <div class="about-modal hidden" id="about-modal">
+                <div class="about-modal-content">
                     <a
-                        href="https://people.hes-so.ch/en/profile/4037691745-orestis-malaspinas"
-                        >O. Malaspinas</a
+                            class="about-modal-close"
+                            id="about-modal-close"
+                            onclick="closeAboutModal()"
                     >
-                    <div>
-                        <a href="https://www.hesge.ch/hepia"
-                            >Haute école du paysage d'ingénierie et
-                            d'architecture</a
+                        <svg
+                                width="24px"
+                                height="24px"
+                                viewBox="0 0 24 24"
+                                fill="#484848"
+                                xmlns="http://www.w3.org/2000/svg"
                         >
+                            <path
+                                    fill-rule="evenodd"
+                                    clip-rule="evenodd"
+                                    d="M5.29289 5.29289C5.68342 4.90237 6.31658 4.90237 6.70711 5.29289L12 10.5858L17.2929 5.29289C17.6834 4.90237 18.3166 4.90237 18.7071 5.29289C19.0976 5.68342 19.0976 6.31658 18.7071 6.70711L13.4142 12L18.7071 17.2929C19.0976 17.6834 19.0976 18.3166 18.7071 18.7071C18.3166 19.0976 17.6834 19.0976 17.2929 18.7071L12 13.4142L6.70711 18.7071C6.31658 19.0976 5.68342 19.0976 5.29289 18.7071C4.90237 18.3166 4.90237 17.6834 5.29289 17.2929L10.5858 12L5.29289 6.70711C4.90237 6.31658 4.90237 5.68342 5.29289 5.29289Z"
+                                    fill="fill"
+                            />
+                        </svg>
+                    </a>
+                    <div>
+                        <h1>Calcul d'isochrones</h1>
+                        <p>
+                            <a href="https://iso.hepiapp.ch">Isochrones</a> est un
+                            outil interactif pour visualiser les
+                            <a href="https://fr.wikipedia.org/wiki/Carte_isochrone">cartes isochrones</a>
+                            en Suisse. Ainsi, la plateforme permet de calculer et
+                            comparer facilement les zones accessibles, à pieds et en
+                            transports publics Suisses, en un temps donné depuis un
+                            endroit en Suisse en fonction d'une heure de départ.
+                        </p>
+
+                        <h2>Source des données</h2>
+                        <p>
+                            Les données proviennent des
+                            <a href="https://opendata.swiss/fr/dataset/timetable-54-2025-hrdf">horaires</a>
+                            des transports publics Suisses.
+                        </p>
+                        <h3>Code source</h3>
+                        Les codes source pour ce projet se trouvent sur les liens:
+                        <ul>
+                            <li>
+                                <a href="https://github.com/florianburgener/hrdf-parser">Parser HRDF</a>
+                            </li>
+                            <li>
+                                <a href="https://github.com/florianburgener/hrdf-routing-engine">Planificateur de trajets</a>
+                            </li>
+                            <li>
+                                <a href="https://github.com/florianburgener/interactive-isochrone-map">Site web</a>
+                            </li>
+                        </ul>
+                        <h3>Crédits</h3>
+                        <a href="https://github.com/florianburgener">F. Burgener</a
+                        >, A. Durgnat,
+                        <a href="https://github.com/Foebus">M. Gay-Balmaz</a>,
+                        <a
+                                href="https://people.hes-so.ch/en/profile/4037691745-orestis-malaspinas"
+                        >O. Malaspinas</a
+                        >
+                        <div>
+                            <a href="https://www.hesge.ch/hepia"
+                            >Haute école du paysage d'ingénierie et
+                                d'architecture</a
+                            >
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+
         <script
             type="text/javascript"
             src="https://unpkg.com/leaflet/dist/leaflet.js"

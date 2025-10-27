@@ -1,7 +1,7 @@
 /* Form */
 
 .formContainer {
-    margin: 1rem auto;
+    margin: 0 auto 1rem;
     max-width: 900px;
     padding: 0.5rem;
     border-radius: 0.5rem;
@@ -39,7 +39,7 @@
 }
 
 .form-group {
-    margin: auto;
+    margin: 0 auto;
     width: 100%;
     max-width: 400px;
 }
@@ -119,6 +119,20 @@
 
 .formCheckbox label {
     margin-bottom: 0 !important;
+}
+
+.optimalTimeLabel {
+    margin-top: 0.3rem;
+    font-weight: 300;
+}
+
+.optimalTimeLabel span {
+    font-weight: 500;
+    margin-left: 0.5rem;
+}
+
+.optimalTimeLabel.hidden {
+    display: none;
 }
 
 .submitButtonContainer {
