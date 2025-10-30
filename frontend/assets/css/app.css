@@ -80,6 +80,7 @@ input[type="radio"] {
 .btn-secondary {
     background-color: white;
     color: #201f1f;
+    max-width: 450px;
 }
 
 .btn-secondary:hover:not(:disabled) {

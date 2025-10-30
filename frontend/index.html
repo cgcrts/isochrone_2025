@@ -25,24 +25,40 @@
         <div class="appContent">
             <div class="formContainer">
                 <form id="form">
+                    <div class="geoOptions">
+                        <label>Choix du point de départ</label>
+                        <div class="formCheckbox geoOptionsCheckbox">
+                            <label for="geoOptionsSelect" class="selected">
+                                <img src="assets/images/markerHD.png" alt="marker">
+                                Sur la carte
+                            </label>
+                            <input type="checkbox" class="formCheckboxInput" id="geoOptionsSelect">
+                            <label for="geoOptionsSelect" class="">
+                                <img src="assets/images/logo_train.png" alt="train">
+                                Gare
+                            </label>
+                        </div>
+                    </div>
                     <div class="formGrid" id="simpleOptions">
                         <div class="form-group" id="ctrls-point-1">
                             <label>Lieu de départ n°1</label>
-                            <div style="display: flex; justify-content: space-between;">
+                            <div class="locationInput">
                                 <button class="btn btn-secondary" id="select-origin-point-1" type="button">
-                                    <img src="./assets/images/origin-point.png" width="15" alt="origin point"/>
+                                    <img src="./assets/images/markerHD.png" width="15" alt="origin point"/>
                                     Choisir le point d'origine
                                 </button>
+                                <input class="hidden" id="myInput" type="text" name="myCountry" placeholder="Rechercher une gare"/>
                             </div>
                         </div>
 
-                        <div class="form-group disabled" id="ctrls-point-2">
+                        <div class="form-group disabled hidden" id="ctrls-point-2">
                             <label>Lieu de départ n°2 (optionnel)</label>
-                            <div style="display: flex; justify-content: space-between;">
+                            <div class="locationInput">
                                 <button disabled class="btn btn-secondary" id="select-origin-point-2" type="button">
-                                    <img src="./assets/images/origin-point.png" width="15" alt="origin point"/>
+                                    <img src="./assets/images/markerHD.png" width="15" alt="origin point"/>
                                     Choisir le point d'origine
                                 </button>
+                                <input class="hidden" id="myInput2" type="text" name="myCountry" placeholder="Gare" disabled/>
                             </div>
                         </div>
 

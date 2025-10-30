@@ -29,6 +29,8 @@ const ctrlsPoint2 = document.getElementById("ctrls-point-2");
 const selectOriginPointElem1 = document.getElementById("select-origin-point-1");
 const selectOriginPointElem2 = document.getElementById("select-origin-point-2");
 
+const locationInputs = document.getElementsByClassName("locationInput");
+
 const toggleMaxDistanceCbx = document.getElementById("legend-show-max-distance",);
 
 const departureAtInput = document.getElementById("departure-at");
@@ -40,6 +42,8 @@ const submitButton = document.getElementById("submit-button");
 
 const advancedOptionsSelect = document.getElementById("advancedOptionsSelect");
 const advancedOptions = document.getElementById("advancedOptions");
+const geoOptionsSelect = document.getElementById("geoOptionsSelect");
+const geoOptionsLabels = document.querySelector(".geoOptionsCheckbox").querySelectorAll('label');
 
 /* Second point controls */
 
@@ -644,6 +648,7 @@ const EndMarkerPlacement = function (markerIndex) {
 
     if (markerIndex === 0) {
         ctrlsPoint2.classList.remove('disabled')
+        ctrlsPoint2.classList.remove('hidden')
         ctrlsPoint2.querySelector("button").disabled = false;
     }
 
@@ -967,6 +972,19 @@ advancedOptionsSelect.addEventListener('change', (event) => {
     } else {
         advancedOptions.style.display = 'none'
     }
+})
+
+geoOptionsSelect.addEventListener('change', (event) => {
+    geoOptionsLabels[0].classList.toggle("selected");
+    geoOptionsLabels[1].classList.toggle("selected");
+
+    // inputs for 1st isochrone
+    locationInputs[0].querySelector('input').classList.toggle("hidden");
+    locationInputs[0].querySelector('button').classList.toggle("hidden");
+
+    // inputs for 2nd isochrone
+    locationInputs[1].querySelector('input').classList.toggle("hidden");
+    locationInputs[1].querySelector('button').classList.toggle("hidden");
 })
 
 init();

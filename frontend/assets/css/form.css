@@ -10,7 +10,7 @@
 
 .formGrid {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
     grid-gap: 1rem;
     margin-bottom: 1rem;
     justify-content: center;
@@ -36,16 +36,34 @@
     .formGrid {
         grid-template-columns: 1fr;
     }
+
+    .geoOptions {
+        max-width: 450px;
+        margin: 0 auto;
+    }
+}
+
+form label {
+    margin-bottom: 8px;
 }
 
 .form-group {
     margin: 0 auto;
     width: 100%;
-    max-width: 400px;
+    max-width: 450px;
+}
+
+.form-group.hidden {
+    display: none;
+}
+
+.form-group > .btn {
+    max-width: 450px;
 }
 
 .formCheckbox {
     display: flex;
+    align-items: center;
     column-gap: 0.5rem;
 }
 
@@ -61,7 +79,6 @@
     border-style: none;
     flex-shrink: 0;
     height: 20px;
-    margin: 0;
     position: relative;
     width: 30px;
  }
@@ -118,7 +135,59 @@
 }
 
 .formCheckbox label {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     margin-bottom: 0 !important;
+}
+
+.geoOptionsCheckbox {
+    display: grid;
+    grid-template-columns: 1fr min-content 1fr;
+    column-gap: 0;
+    margin-bottom: 1rem;
+    max-width: 450px;
+    border: 2px solid #564946;
+    border-radius: 0.3rem;
+    background-color: #f3f3f3;
+    font-size: 12.8px;
+}
+
+.geoOptionsCheckbox input {
+    visibility: hidden;
+    margin: 0;
+    width: 0 !important;
+}
+
+.geoOptionsCheckbox label {
+    padding: 0.3rem;
+    opacity: 1;
+    border-radius: 0.3rem;
+    cursor: pointer;
+    background-color: #f3f3f3;
+}
+
+.geoOptionsCheckbox label.selected {
+    opacity: 1;
+    background-color: #F0DCCA;
+}
+
+label img {
+    height: 25px;
+    margin-right: 0.2rem;
+}
+
+.locationInput {
+    display: flex;
+    justify-content: space-between;
+}
+
+.locationInput *.hidden{
+    display: none;
+}
+
+.locationInput input:disabled {
+    background-color: lightgrey;
 }
 
 .optimalTimeLabel {
