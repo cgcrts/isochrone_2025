@@ -183,9 +183,13 @@
                 </div>
             </div>
 
-            <button class="btn btn-secondary about">A propos des données</button>
-            <div class="aboutContainer">
-                <div class="aboutContent">
+            <button class="btn btn-secondary about" onclick="handleAboutButton()">A propos</button>
+
+            <div id="aboutContainer" class="hidden" >
+                <div id="aboutContent">
+                    <div class="aboutCloseButton" onclick="handleCloseAbout()">
+                        <svg width="24px" height="24px" viewBox="0 0 24 24" fill="#804a3e" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M5.29289 5.29289C5.68342 4.90237 6.31658 4.90237 6.70711 5.29289L12 10.5858L17.2929 5.29289C17.6834 4.90237 18.3166 4.90237 18.7071 5.29289C19.0976 5.68342 19.0976 6.31658 18.7071 6.70711L13.4142 12L18.7071 17.2929C19.0976 17.6834 19.0976 18.3166 18.7071 18.7071C18.3166 19.0976 17.6834 19.0976 17.2929 18.7071L12 13.4142L6.70711 18.7071C6.31658 19.0976 5.68342 19.0976 5.29289 18.7071C4.90237 18.3166 4.90237 17.6834 5.29289 17.2929L10.5858 12L5.29289 6.70711C4.90237 6.31658 4.90237 5.68342 5.29289 5.29289Z" fill="fill"/></svg>
+                    </div>
                     <div class="aboutTitle">
                         Calcul d'isochrones
                     </div>
@@ -201,84 +205,33 @@
                     <div class="aboutTitle">
                         Source des données
                     </div>
-                </div>
-            </div>
-
-            <!-- About -->
-            <button
-                    class="btn btn-secondary about-button"
-                    id="about-button"
-                    onclick="openAboutModal()"
-            >
-                ?
-            </button>
-            <div class="about-modal hidden" id="about-modal">
-                <div class="about-modal-content">
-                    <a
-                            class="about-modal-close"
-                            id="about-modal-close"
-                            onclick="closeAboutModal()"
-                    >
-                        <svg
-                                width="24px"
-                                height="24px"
-                                viewBox="0 0 24 24"
-                                fill="#484848"
-                                xmlns="http://www.w3.org/2000/svg"
-                        >
-                            <path
-                                    fill-rule="evenodd"
-                                    clip-rule="evenodd"
-                                    d="M5.29289 5.29289C5.68342 4.90237 6.31658 4.90237 6.70711 5.29289L12 10.5858L17.2929 5.29289C17.6834 4.90237 18.3166 4.90237 18.7071 5.29289C19.0976 5.68342 19.0976 6.31658 18.7071 6.70711L13.4142 12L18.7071 17.2929C19.0976 17.6834 19.0976 18.3166 18.7071 18.7071C18.3166 19.0976 17.6834 19.0976 17.2929 18.7071L12 13.4142L6.70711 18.7071C6.31658 19.0976 5.68342 19.0976 5.29289 18.7071C4.90237 18.3166 4.90237 17.6834 5.29289 17.2929L10.5858 12L5.29289 6.70711C4.90237 6.31658 4.90237 5.68342 5.29289 5.29289Z"
-                                    fill="fill"
-                            />
-                        </svg>
-                    </a>
-                    <div>
-                        <h1>Calcul d'isochrones</h1>
-                        <p>
-                            <a href="https://iso.hepiapp.ch">Isochrones</a> est un
-                            outil interactif pour visualiser les
-                            <a href="https://fr.wikipedia.org/wiki/Carte_isochrone">cartes isochrones</a>
-                            en Suisse. Ainsi, la plateforme permet de calculer et
-                            comparer facilement les zones accessibles, à pieds et en
-                            transports publics Suisses, en un temps donné depuis un
-                            endroit en Suisse en fonction d'une heure de départ.
-                        </p>
-
-                        <h2>Source des données</h2>
-                        <p>
-                            Les données proviennent des
-                            <a href="https://opendata.swiss/fr/dataset/timetable-54-2025-hrdf">horaires</a>
-                            des transports publics Suisses.
-                        </p>
-                        <h3>Code source</h3>
-                        Les codes source pour ce projet se trouvent sur les liens:
-                        <ul>
-                            <li>
-                                <a href="https://github.com/florianburgener/hrdf-parser">Parser HRDF</a>
-                            </li>
-                            <li>
-                                <a href="https://github.com/florianburgener/hrdf-routing-engine">Planificateur de trajets</a>
-                            </li>
-                            <li>
-                                <a href="https://github.com/florianburgener/interactive-isochrone-map">Site web</a>
-                            </li>
-                        </ul>
-                        <h3>Crédits</h3>
-                        <a href="https://github.com/florianburgener">F. Burgener</a
-                        >, A. Durgnat,
-                        <a href="https://github.com/Foebus">M. Gay-Balmaz</a>,
-                        <a
-                                href="https://people.hes-so.ch/en/profile/4037691745-orestis-malaspinas"
-                        >O. Malaspinas</a
-                        >
+                    <div class="aboutText">
+                        Les données proviennent des
+                        <a href="https://opendata.swiss/fr/dataset/timetable-54-2025-hrdf" target="_blank">horaires</a>
+                        des transports publics Suisses.
+                    </div>
+                    <div class="aboutTitle">
+                        Codes source
+                    </div>
+                    <div class="aboutText">
                         <div>
-                            <a href="https://www.hesge.ch/hepia"
-                            >Haute école du paysage d'ingénierie et
-                                d'architecture</a
-                            >
+                            <a href="https://github.com/florianburgener/hrdf-parser" target="_blank">Parser HRDF</a>
                         </div>
+                        <div>
+                            <a href="https://github.com/florianburgener/hrdf-routing-engine" target="_blank">Planificateur de trajets</a>
+                        </div>
+                        <div>
+                            <a href="https://github.com/florianburgener/interactive-isochrone-map" target="_blank">Site web</a>
+                        </div>
+                    </div>
+                    <div class="aboutTitle">
+                        Crédits
+                    </div>
+                    <div class="aboutText">
+                        <a href="https://github.com/florianburgener" target="_blank">F. Burgener</a>, A. Durgnat,
+                        <a href="https://github.com/Foebus" target="_blank">M. Gay-Balmaz</a>,
+                        <a href="https://people.hes-so.ch/en/profile/4037691745-orestis-malaspinas" target="_blank">O. Malaspinas</a>.
+                        <a href="https://www.hesge.ch/hepia" target="_blank">Haute école du paysage d'ingénierie et d'architecture</a>
                     </div>
                 </div>
             </div>

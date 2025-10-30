@@ -668,6 +668,12 @@ const StartMarkerPlacement = (markerIndex) => {
     selectOriginPointElems[markerIndex].innerHTML = `Cliquer sur la carte`;
     isSelectingOriginPoint_markerIndex = markerIndex;
     isSelectingOriginPoint = true;
+
+    // scroll to map
+    setTimeout(() => {
+            document.getElementById('map').scrollIntoView({behavior: "smooth"})
+        }, 200
+    )
 };
 
 /**
@@ -720,13 +726,13 @@ const bringToFront = (isoIndex) => {
 
 // About modal
 
-const openAboutModal = () => {
-    document.getElementById("about-modal").classList.remove("hidden");
-};
+const handleAboutButton = () => {
+    document.getElementById('aboutContainer').classList.toggle("hidden");
+}
 
-const closeAboutModal = () => {
-    document.getElementById("about-modal").classList.add("hidden");
-};
+const handleCloseAbout = () => {
+    document.getElementById('aboutContainer').classList.add("hidden");
+}
 
 // Toaster
 
