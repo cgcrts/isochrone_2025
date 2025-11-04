@@ -599,6 +599,7 @@ const removeMarker = (index = 0) => {
         //Abort
         return;
     }
+    console.log(markers)
     if (markers[index] !== null) {
         markers[index].remove();
         markers[index] = null;
@@ -643,8 +644,12 @@ const EndMarkerPlacement = function (markerIndex) {
     selectOriginPointElems[markerIndex].classList.remove(
         "selecting-origin-point",
     );
+
+    const lat = parseFloat(originPointCoords[markerIndex][0]);
+    const lon = parseFloat(originPointCoords[markerIndex][1]);
+
     selectOriginPointElems[markerIndex].innerHTML =
-        `<img src="./assets/images/origin-point.png" width="15"> ${originPointCoords[markerIndex][0].toFixed(2)}°N, ${originPointCoords[markerIndex][1].toFixed(2)}°E`;
+        `<img src="./assets/images/origin-point.png" width="15"> ${lat.toFixed(2)}°N, ${lon.toFixed(2)}°E`;
 
     if (markerIndex === 0) {
         ctrlsPoint2.classList.remove('disabled')
@@ -979,12 +984,94 @@ geoOptionsSelect.addEventListener('change', (event) => {
     geoOptionsLabels[1].classList.toggle("selected");
 
     // inputs for 1st isochrone
-    locationInputs[0].querySelector('input').classList.toggle("hidden");
+    locationInputs[0].querySelector('div').classList.toggle("hidden");
     locationInputs[0].querySelector('button').classList.toggle("hidden");
 
     // inputs for 2nd isochrone
-    locationInputs[1].querySelector('input').classList.toggle("hidden");
+    locationInputs[1].querySelector('div').classList.toggle("hidden");
     locationInputs[1].querySelector('button').classList.toggle("hidden");
 })
+
+// retrieve list of swiss public transport stations with geo coordinates
+let stations = [];
+
+fetch("https://rtsinfo-data.s3.amazonaws.com/cgc/assets/datafiles/data_gares_2025.json")
+    .then(res => res.json())
+    .then(data => {
+        stations = data;
+        // sort stations alphabetically, considering accent letters as normal letters ('é' and 'e' for example)
+        stations.sort((a, b) => a.name.localeCompare(b.name, "fr"));
+        console.log("API data:", stations);
+    });
+
+const searchInput = [document.getElementById("search-1"), document.getElementById("search-2")];
+const resultsBox = [document.getElementById("results-1"), document.getElementById("results-2")];
+const clearBtn = [document.getElementById("clearBtn-1"), document.getElementById("clearBtn-2")];
+
+let selectedItem = null;
+
+function handleSearchInput(event, index) {
+    // remove accents and lowercase string so that 'geneve' matches with 'Genève'
+    const normalizeString = string => string.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLocaleLowerCase();
+
+    const query = normalizeString(event.target.value.toLowerCase());
+    resultsBox[index].innerHTML = "";
+
+    // if user is editing after selection, reset selectedItem
+    if (selectedItem) {
+        selectedItem = null;
+        clearBtn[index].style.display = "none";
+    }
+
+    if (!query) return;
+
+    // get the list of stations that include what user has written
+    const matches = stations.filter(station =>
+        normalizeString(station.name).includes(query)
+    ).slice(0, 10); // only show first 10 results
+
+    // create list of suggestions
+    matches.forEach(item => {
+        const div = document.createElement("div");
+        div.className = "result-item";
+        div.textContent = item.name;
+
+        div.onclick = () => chooseItem(item, index);
+        resultsBox[index].appendChild(div);
+    });
+}
+
+function chooseItem(item, index) {
+    selectedItem = item;
+
+    // put selected name into input field
+    searchInput[index].value = item.name;
+
+    // hide results
+    resultsBox[index].innerHTML = "";
+
+    // show clear button
+    clearBtn[index].style.display = "block";
+
+    // custom action when selected
+    removeMarker(index)
+    markers[index] = createMarker(item.lat, item.lon, index)
+    originPointCoords[index] = [item.lat, item.lon];
+    EndMarkerPlacement(index)
+}
+
+function handleClearBtnClick(index) {
+    clearBtn[index].onclick = () => {
+        selectedItem = null;
+        searchInput.value = "";
+        clearBtn[index].style.display = "none";
+    };
+}
+
+searchInput[0].addEventListener("input", (e) => {handleSearchInput(e, 0)});
+searchInput[1].addEventListener("input",(e) => {handleSearchInput(e, 1)});
+
+handleClearBtnClick(0)
+handleClearBtnClick(1)
 
 init();

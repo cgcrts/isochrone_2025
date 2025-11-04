@@ -28,6 +28,10 @@
     border-radius: 1rem;
 }
 
+.geoOptions {
+    max-width: 50%;
+}
+
 @media (max-width: 750px) {
     .formContainer {
         max-width: 600px;
@@ -146,7 +150,6 @@ form label {
     grid-template-columns: 1fr min-content 1fr;
     column-gap: 0;
     margin-bottom: 1rem;
-    max-width: 450px;
     border: 2px solid #564946;
     border-radius: 0.3rem;
     background-color: #f3f3f3;
@@ -188,6 +191,39 @@ label img {
 
 .locationInput input:disabled {
     background-color: lightgrey;
+}
+
+.results {
+    position: absolute;
+    z-index: 10000;
+    background-color: white;
+    border: 1px solid #ccc;
+    cursor: pointer;
+}
+.result-item {
+    padding: 5px;
+}
+.result-item:hover {
+    background: #eee;
+}
+
+.active {
+    background: #dcdcdc;
+}
+
+.clearBtn {
+    display: none;
+    position: absolute;
+    right: 8px;
+    top: 8px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.input-wrapper {
+    position: relative;
+    display: inline-block;
+    width: 100%;
 }
 
 .optimalTimeLabel {

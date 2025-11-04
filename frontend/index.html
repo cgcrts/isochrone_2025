@@ -29,13 +29,11 @@
                         <label>Choix du point de départ</label>
                         <div class="formCheckbox geoOptionsCheckbox">
                             <label for="geoOptionsSelect" class="selected">
-                                <img src="assets/images/markerHD.png" alt="marker">
-                                Sur la carte
+                                <img src="assets/images/markerHD.png" alt="marker">Sur la carte
                             </label>
                             <input type="checkbox" class="formCheckboxInput" id="geoOptionsSelect">
                             <label for="geoOptionsSelect" class="">
-                                <img src="assets/images/logo_train.png" alt="train">
-                                Gare
+                                <img src="assets/images/logo_train.png" alt="train">Gare
                             </label>
                         </div>
                     </div>
@@ -47,7 +45,11 @@
                                     <img src="./assets/images/markerHD.png" width="15" alt="origin point"/>
                                     Choisir le point d'origine
                                 </button>
-                                <input class="hidden" id="myInput" type="text" name="myCountry" placeholder="Rechercher une gare"/>
+                                <div class="input-wrapper hidden">
+                                    <input id="search-1" type="text" placeholder="Rechercher une gare..." autocomplete="off"/>
+                                    <span class="clearBtn" id="clearBtn-1">✕</span>
+                                    <div id="results-1" class="results"></div>
+                                </div>
                             </div>
                         </div>
 
@@ -58,7 +60,11 @@
                                     <img src="./assets/images/markerHD.png" width="15" alt="origin point"/>
                                     Choisir le point d'origine
                                 </button>
-                                <input class="hidden" id="myInput2" type="text" name="myCountry" placeholder="Gare" disabled/>
+                                <div class="input-wrapper hidden">
+                                    <input id="search-2" type="text" placeholder="Rechercher une gare..." autocomplete="off"/>
+                                    <span class="clearBtn" id="clearBtn-2">✕</span>
+                                    <div id="results-2" class="results"></div>
+                                </div>
                             </div>
                         </div>
 
