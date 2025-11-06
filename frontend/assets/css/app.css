@@ -116,13 +116,13 @@ input[type="radio"] {
 } */
 .cursor-marker-0 {
     cursor:
-        url(./../images/marker.png) 16 38,
+        url(./../images/markerSD.png) 16 43,
         auto !important;
 }
 
 .cursor-marker-1 {
     cursor:
-        url(./../images/marker_red.png) 16 38,
+        url(./../images/markerRedSD.png) 16 43,
         auto !important;
 }
 

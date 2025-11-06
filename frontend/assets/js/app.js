@@ -78,15 +78,15 @@ let isMapMoving = false;
 let onMarkerPlacementEndCallback = null;
 
 const customMarker = L.icon({
-    iconUrl: "./assets/images/marker.png",
-    iconSize: [32, 38],
-    iconAnchor: [16, 38],
+    iconUrl: "./assets/images/markerSD.png",
+    iconSize: [32, 43],
+    iconAnchor: [16, 43],
 });
 
 const customMarker2 = L.icon({
-    iconUrl: "./assets/images/marker_red.png",
-    iconSize: [32, 38],
-    iconAnchor: [16, 38],
+    iconUrl: "./assets/images/markerRedSD.png",
+    iconSize: [32, 43],
+    iconAnchor: [16, 43],
 });
 
 const pin = L.icon({
@@ -170,11 +170,28 @@ var CartoDB_Positron = L.tileLayer(
     },
 );
 
-// center of switzerland coordinates:
-const centerLat = 46.87;
-const centerLng = 8.13;
+// get window width to see if user is on mobile
+const windowWidth = window.innerWidth
 
-const map = L.map("map").setView([centerLat, centerLng], 8);
+const centerLat = 46.87;
+let centerLng
+let initialZoom
+
+// adapt initial zoom and map center point if on desktop or mobile (width < 450px)
+if (windowWidth < 450) {
+    initialZoom = 7;
+    centerLng = 7.4
+} else {
+    initialZoom = 8;
+    centerLng = 8.13;
+}
+
+// center of switzerland coordinates:
+const map = L.map("map").setView([centerLat, centerLng], initialZoom);
+
+function isSafari() {
+    return /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+}
 
 // Functions.
 const init = () => {
@@ -909,7 +926,27 @@ map.on("click", (e) => {
     removeMarker(index);
 
     // Retrieve position of click
-    originPointCoords[index] = [e.latlng.lat, e.latlng.lng];
+    if (isSafari()) {
+        // Safari browser clicked point on map is inaccurate.
+        // It incorrectly uses top left corner of marker icon as the clicked point instead of bottom center of icon, where the cursor is.
+        // Clicked point is in lat-lng, but offset is in px.
+        // Need to convert clicked lat-lng to px, then apply offset, then convert it back to lat-lng
+
+        // convert to pixel point relative to the map container
+        const point = map.latLngToContainerPoint(e.latlng);
+        // apply pixel offset (x = half of marker icon width, y = marker icon height)
+        const offsetPoint = L.point(point.x + 16, point.y + 43);
+        // convert back to latlng
+        const offsetLatLng = map.containerPointToLatLng(offsetPoint);
+
+        originPointCoords[index] = [offsetLatLng.lat, offsetLatLng.lng];
+
+    } else {
+
+        originPointCoords[index] = [e.latlng.lat, e.latlng.lng];
+    }
+    console.log(originPointCoords[index]);
+
     //Create new marker at position
     markers[index] = createMarker(
         originPointCoords[index][0],
@@ -992,9 +1029,8 @@ geoOptionsSelect.addEventListener('change', (event) => {
     locationInputs[1].querySelector('button').classList.toggle("hidden");
 })
 
-// retrieve list of swiss public transport stations with geo coordinates
+// Retrieve list of swiss public transport stations with geo coordinates
 let stations = [];
-
 fetch("https://rtsinfo-data.s3.amazonaws.com/cgc/assets/datafiles/data_gares_2025.json")
     .then(res => res.json())
     .then(data => {
