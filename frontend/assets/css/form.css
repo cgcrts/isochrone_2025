@@ -175,6 +175,13 @@ form label {
     background-color: #F0DCCA;
 }
 
+.btn-content-initial, .btn-content-active, .btn-content-selected {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    column-gap: 0.5rem;
+}
+
 label img {
     height: 25px;
     margin-right: 0.2rem;
@@ -214,10 +221,18 @@ label img {
 .clearBtn {
     display: none;
     position: absolute;
-    right: 8px;
-    top: 8px;
+    right: 0.5rem;
+    top: 50%;
+    transform: translateY(-50%);
     cursor: pointer;
     font-weight: bold;
+}
+
+.btn-secondary .clearBtn {
+    display: block;
+    background-color: #f1f1f1;
+    padding: 2px 5px;
+    border-radius: 5px;
 }
 
 .input-wrapper {

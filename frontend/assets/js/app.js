@@ -31,8 +31,6 @@ const selectOriginPointElem2 = document.getElementById("select-origin-point-2");
 
 const locationInputs = document.getElementsByClassName("locationInput");
 
-const toggleMaxDistanceCbx = document.getElementById("legend-show-max-distance",);
-
 const departureAtInput = document.getElementById("departure-at");
 const timeLimitInput = document.getElementById("time-limit");
 const isochroneIntervalInput = document.getElementById("isochrone-interval");
@@ -69,9 +67,7 @@ let isochronesLayer = null;
 let originPointCoords = [null, null];
 let isFormSubmitted = false;
 let abortController = new AbortController();
-let legendControls_opacitySliders = document.querySelectorAll(
-    '.legend-controls input[type="range"]',
-);
+let isochronesBoundingBoxes = []
 
 let isMapMoving = false;
 
@@ -104,14 +100,11 @@ const pin2 = L.icon({
 /** Callbacks */
 
 let onStartComputeIsochrone = () => {
-    //console.log("onStartComputeIsochrone trig");
     findOptimalInput.disabled = true;
-    toggleMaxDistanceCbx.checked = false;
     openToaster();
 };
 
 let onFinishComputeIsochrone = () => {
-    //console.log("onFinishComputeIsochrone trig");
     findOptimalInput.disabled = false;
     closeToaster();
 };
@@ -127,39 +120,15 @@ const ResetToaster = () => {
 };
 
 // Different openstreetmap tiles
-/*
-var OpenStreetMap_Mapnik = L.tileLayer(
-    "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
-    {
-        maxZoom: 19,
-        attribution:
-            '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-    },
-);
 var Stadia_AlidadeSmooth = L.tileLayer(
     "https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.{ext}",
     {
         attribution:
-            '&copy; <a href="https://www.stadiamaps.com/" target="_blank">Stadia Maps</a> &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+            '&copy; <a href="https://www.stadiamaps.com/" target="_blank">Stadia Maps</a> &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
         ext: "png",
     },
 );
-var Stadia_StamenTonerLite = L.tileLayer(
-    "https://tiles.stadiamaps.com/tiles/stamen_toner_lite/{z}/{x}/{y}{r}.{ext}",
-    {
-        attribution:
-            '&copy; <a href="https://www.stadiamaps.com/" target="_blank">Stadia Maps</a> &copy; <a href="https://www.stamen.com/" target="_blank">Stamen Design</a> &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-        ext: "png",
-    },
-);
-var Esri_WorldGrayCanvas = L.tileLayer(
-    "https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}",
-    {
-        attribution: "Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ",
-        maxZoom: 16,
-    },
-);
-*/
+
 var CartoDB_Positron = L.tileLayer(
     "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
     {
@@ -193,6 +162,15 @@ function isSafari() {
     return /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
 }
 
+function zoomToIsochrones() {
+    // flatten the array of arrays of coordinates to get an array of coordinates that can be passed as a bbox
+    const combinedBoundingBoxes = L.latLngBounds(isochronesBoundingBoxes.flat());
+
+    // fitBounds accept an array of [lat, lng] coordinates
+    map.fitBounds(combinedBoundingBoxes, { animate: true });
+
+}
+
 // Functions.
 const init = () => {
     setMinMaxDepartureAt();
@@ -200,7 +178,7 @@ const init = () => {
     // departureAtInput.value = departureAtInput.max;
     updateIsochroneIntervalOptions();
 
-    var baseMap = CartoDB_Positron;
+    var baseMap = Stadia_AlidadeSmooth;
     baseMap.addTo(map);
     map.createPane("isochrones0");
     map.getPane("isochrones0").style.opacity = 0.6;
@@ -242,7 +220,6 @@ const displayIsochroneMap = async (idx, clear = true) => {
             },
         );
         isochroneMap = await response.json();
-        console.log(isochroneMap);
     } catch (err) {
         if (err.name === "AbortError") {
             return;
@@ -258,19 +235,12 @@ const displayIsochroneMap = async (idx, clear = true) => {
         );
         return;
     }
-    // if (params.get("find_optimal") === "true") {
-    //     let departure_at = isochroneMap.departure_at;
-    //     setOptimalTimeInLegend(departure_at, idx);
-    // }
 
-    // // Centers on the origin point and sets the appropriate zoom level.
-    // map.fitBounds([isochroneMap.bounding_box[0], isochroneMap.bounding_box[1]], { animate: false });
-    // map.setView([originPointCoord[0], originPointCoord[1]], undefined, { animate: false });
+    isochronesBoundingBoxes.push(isochroneMap.bounding_box)
 
     displayIsochrones(isochroneMap, idx);
     if (params.get("find_optimal") === "true") {
         setOptimalDepartInLegend(isochroneMap.departure_at, idx);
-        console.log(document.getElementById(`optimal-legend-${idx + 1}`))
         document
             .getElementById(`optimal-legend-${idx + 1}`)
             .classList.remove("hidden");
@@ -284,9 +254,8 @@ const displayIsochroneMap = async (idx, clear = true) => {
 const clearPreviousIsochroneMap = () => {
     legend.innerHTML = "";
     legend2.innerHTML = "";
-    document
-        .querySelectorAll(".legend-controls")
-        .forEach((elem) => elem.classList.add("hidden"));
+
+    legend2.parentElement.parentElement.classList.add("hidden");
 
     document
         .querySelectorAll(".optimal-container")
@@ -294,7 +263,6 @@ const clearPreviousIsochroneMap = () => {
     document
         .querySelectorAll(".legend-optimal-time")
         .forEach((elem) => elem.classList.add("hidden"));
-    document.getElementById("legend-container").classList.add("hidden");
     // Remove the furthest point markers if they're present
     removeFurthestMarker(0);
     removeFurthestMarker(1);
@@ -389,10 +357,6 @@ const displayIsochrones = async (isochroneMap, index = 0) => {
     if (index === 1) {
         legend2.parentElement.parentElement.classList.remove("hidden");
     }
-
-    // Show the opacity slider for the current isochrone map
-    //let slider = document.querySelector(`#legend-controls-${index + 1}`);
-    //slider.classList.remove("hidden");
 
     // Merge the polygons
     let aborted = false;
@@ -616,7 +580,7 @@ const removeMarker = (index = 0) => {
         //Abort
         return;
     }
-    console.log(markers)
+
     if (markers[index] !== null) {
         markers[index].remove();
         markers[index] = null;
@@ -665,8 +629,24 @@ const EndMarkerPlacement = function (markerIndex) {
     const lat = parseFloat(originPointCoords[markerIndex][0]);
     const lon = parseFloat(originPointCoords[markerIndex][1]);
 
-    selectOriginPointElems[markerIndex].innerHTML =
-        `<img src="./assets/images/origin-point.png" width="15"> ${lat.toFixed(2)}°N, ${lon.toFixed(2)}°E`;
+    // hide button content when in initial state ('Choisir le point d'origine')
+    const btnContentInitial = selectOriginPointElems[markerIndex].querySelector('.btn-content-initial');
+    btnContentInitial.classList.add('hidden');
+
+    // hide button content when origin point is active ('Cliquer sur la carte')
+    const btnContentActive = selectOriginPointElems[markerIndex].querySelector('.btn-content-active');
+    btnContentActive.classList.add('hidden');
+
+    // show button content when origin point is selected (selected point coordinates)
+    const btnContentSelected = selectOriginPointElems[markerIndex].querySelector('.btn-content-selected')
+    btnContentSelected.classList.remove('hidden')
+    btnContentSelected.innerHTML =
+        `<img src="./assets/images/origin-point.png" width="15"> 
+        ${lat.toFixed(2)}°N, ${lon.toFixed(2)}°E
+        <span class="clearBtn marker">X</span>`;
+
+    // when clear button X is clicked, reset button to initial state and reset selected coordinates
+    btnContentSelected.querySelector('.clearBtn').addEventListener('click', (e) => handleClearBtnMarkerClick(e, markerIndex));
 
     if (markerIndex === 0) {
         ctrlsPoint2.classList.remove('disabled')
@@ -692,7 +672,10 @@ const EndMarkerPlacement = function (markerIndex) {
 const StartMarkerPlacement = (markerIndex) => {
     mapElem.classList.add(`cursor-marker-${markerIndex}`);
     selectOriginPointElems[markerIndex].classList.add("selecting-origin-point");
-    selectOriginPointElems[markerIndex].innerHTML = `Cliquer sur la carte`;
+    selectOriginPointElems[markerIndex].querySelector('.btn-content-initial').classList.add('hidden')
+    selectOriginPointElems[markerIndex].querySelector('.btn-content-active').classList.remove('hidden')
+    selectOriginPointElems[markerIndex].querySelector('.btn-content-selected').classList.add('hidden')
+
     isSelectingOriginPoint_markerIndex = markerIndex;
     isSelectingOriginPoint = true;
 
@@ -945,7 +928,6 @@ map.on("click", (e) => {
 
         originPointCoords[index] = [e.latlng.lat, e.latlng.lng];
     }
-    console.log(originPointCoords[index]);
 
     //Create new marker at position
     markers[index] = createMarker(
@@ -972,10 +954,16 @@ formElem.addEventListener("submit", async (e) => {
     submitButton.innerHTML = `<img src="./assets/images/target.png" width="20" height="20"> Annuler`;
 
     try {
+        // reset bounding boxes
+        isochronesBoundingBoxes = []
+        // get isochrone for first origin point
         await displayIsochroneMap(0);
-        if (originPointCoords[1] !== null) {
+        // only if both origin points are selected get isochrone for second origin point
+        if (originPointCoords[0] !== null && originPointCoords[1] !== null) {
             await displayIsochroneMap(1, false);
         }
+        // zoom on map to bounds
+        zoomToIsochrones()
     } finally {
         isFormSubmitted = false;
         submitButton.classList.remove("btn-cancel-request");
@@ -985,27 +973,12 @@ formElem.addEventListener("submit", async (e) => {
     }
 });
 
-legendControls_opacitySliders.forEach((ctrl) => {
-    ctrl.addEventListener("input", () => {
-        map.getPane("isochrones" + ctrl.dataset.isoindex).style.opacity =
-            ctrl.value / 100;
-    });
-});
-
 legend.addEventListener("click", (_) => {
     bringToFront(0);
 });
 
 legend2.addEventListener("click", (_) => {
     bringToFront(1);
-});
-
-toggleMaxDistanceCbx.addEventListener("change", (e) => {
-    if (e.target.checked) {
-        furthestMarkersLayerGroup.addTo(map);
-    } else {
-        map.removeLayer(furthestMarkersLayerGroup);
-    }
 });
 
 advancedOptionsSelect.addEventListener('change', (event) => {
@@ -1099,9 +1072,27 @@ function chooseItem(item, index) {
 function handleClearBtnClick(index) {
     clearBtn[index].onclick = () => {
         selectedItem = null;
-        searchInput.value = "";
+        searchInput[index].value = "";
         clearBtn[index].style.display = "none";
+        resetOriginPointButton(index)
     };
+}
+
+function handleClearBtnMarkerClick(event, index) {
+    event.stopImmediatePropagation()
+    event.stopPropagation()
+    resetOriginPointButton(index)
+}
+
+function resetOriginPointButton(index) {
+    // remove marker and coordinates
+    removeMarker(index)
+    originPointCoords[index] = null;
+    // remove coordinates from marker button and reset to initial state
+    const btnContentInitial = selectOriginPointElems[index].querySelector('.btn-content-initial')
+    btnContentInitial.classList.remove('hidden')
+    const btnContentSelected = selectOriginPointElems[index].querySelector('.btn-content-selected')
+    btnContentSelected.classList.add('hidden')
 }
 
 searchInput[0].addEventListener("input", (e) => {handleSearchInput(e, 0)});

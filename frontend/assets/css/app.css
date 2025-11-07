@@ -78,6 +78,7 @@ input[type="radio"] {
 }
 
 .btn-secondary {
+    position: relative;
     background-color: white;
     color: #201f1f;
     max-width: 450px;
