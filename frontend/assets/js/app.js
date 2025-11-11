@@ -178,7 +178,7 @@ const init = () => {
     // departureAtInput.value = departureAtInput.max;
     updateIsochroneIntervalOptions();
 
-    var baseMap = Stadia_AlidadeSmooth;
+    var baseMap = CartoDB_Positron;
     baseMap.addTo(map);
     map.createPane("isochrones0");
     map.getPane("isochrones0").style.opacity = 0.6;
@@ -186,6 +186,9 @@ const init = () => {
     map.getPane("isochrones1").style.opacity = 0.6;
 
     furthestMarkersLayerGroup = L.layerGroup();
+
+    // resize iframe when embedded on a website
+    setTimeout(RTSInfoMisc.resize(), 200)
 };
 
 const setMinMaxDepartureAt = async () => {
@@ -249,6 +252,9 @@ const displayIsochroneMap = async (idx, clear = true) => {
     legendContainer.classList.remove("hidden");
 
     isochronesLayer.addTo(map);
+
+    // resize iframe when embedded on a website
+    setTimeout(RTSInfoMisc.resize(), 200)
 };
 
 const clearPreviousIsochroneMap = () => {
@@ -390,6 +396,9 @@ const displayIsochrones = async (isochroneMap, index = 0) => {
             );
         }
     }
+
+    // resize iframe when embedded on a website
+    setTimeout(RTSInfoMisc.resize(), 200)
 };
 
 const hexToRgba = (hex, opacity) => {
@@ -663,6 +672,9 @@ const EndMarkerPlacement = function (markerIndex) {
     if (onMarkerPlacementEndCallback !== null) {
         onMarkerPlacementEndCallback();
     }
+
+    // resize iframe when embedded on a website
+    setTimeout(RTSInfoMisc.resize(), 200)
 };
 
 /**

@@ -3,25 +3,21 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>
-            Carte isochrone interactive des transports publics suisses
-        </title>
+        <title>Carte isochrone interactive des transports publics suisses</title>
 
-        <!-- Favicon -->
+        <!-- scripts -->
+        <script src="https://rtsinfo-data.s3.amazonaws.com/js_scripts/autoresize.js"></script>
+
+        <!-- styles -->
         <link rel="icon" type="image/ico" href="./assets/images/favicon.ico" />
-
-        <link
-            rel="stylesheet"
-            type="text/css"
-            href="https://unpkg.com/leaflet/dist/leaflet.css"
-        />
+        <link rel="stylesheet" type="text/css" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
         <link rel="stylesheet" type="text/css" href="./assets/css/app.css" />
         <link rel="stylesheet" type="text/css" href="./assets/css/about.css" />
         <link rel="stylesheet" type="text/css" href="./assets/css/form.css" />
         <link rel="stylesheet" type="text/css" href="./assets/css/legend.css" />
     </head>
 
-    <body>
+    <body class="no-scroll">
         <div class="appContent">
             <div class="formContainer">
                 <form id="form">
