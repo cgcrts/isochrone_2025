@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://rtsinfo-data.s3.amazonaws.com/js_scripts/autoresize.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="no-scroll">
+    <div id="rootGazaMap">
+        <div class="legendTitle">Data del censimento</div>
+        <div class="radio-layer">
+            <label class="radioItem">
+                <input type="radio" name="dateLayer" value="layerGaza231015">
+                <span class="radioLabel">Ottobre 2023</span>
+            </label>
+            <label class="radioItem">
+                <input type="radio" name="dateLayer" value="layerGaza240229">
+                <span class="radioLabel">Febbraio 2024</span>
+            </label>
+            <label class="radioItem">
+                <input type="radio" name="dateLayer" value="layerGaza240906">
+                <span class="radioLabel">Settembre 2024</span>
+            </label>
+            <label class="radioItem">
+                <input type="radio" name="dateLayer" value="layerGaza250404" checked>
+                <span class="radioLabel">Aprile 2025</span>
+            </label>
+        </div>
+
+        <div class="legendTitle">Danni agli edifici</div>
+        <div class="legendContainer">
+            <div class="legendItem">
+                <div id="color1" class="legendColor"></div>
+                <div class="legendLabel">Possibili</div>
+            </div>
+            <div class="legendItem">
+                <div id="color2" class="legendColor"></div>
+                <div class="legendLabel">Moderati</div>
+            </div>
+            <div class="legendItem">
+                <div id="color3" class="legendColor"></div>
+                <div class="legendLabel">Gravi</div>
+            </div>
+            <div class="legendItem">
+                <div id="color4" class="legendColor"></div>
+                <div class="legendLabel">Distrutti</div>
+            </div>
+        </div>
+
+        <div id="map"></div>
+    </div>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
