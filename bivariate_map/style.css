@@ -1,9 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
 body.no-scroll {
     overflow: hidden;
 }
 
-#rootGazaMap {
-    font-family: Montserrat, sans-serif;
+#root {
+    font-family: 'Montserrat', sans-serif;
     max-width: 900px;
     background-color: white;
 }
@@ -65,39 +67,13 @@ body.no-scroll {
 }
 
 .legendContainer {
-    display: flex;
-    font-size: 0.9rem;
-    margin-bottom: 1rem;
-}
-
-.legendItem {
-    display: block;
-    gap: 0.5rem;
-    width: 150px;
-}
-
-.legendColor {
+    margin: 0 auto;
     width: 100%;
-    height: 0.5rem;
+    max-width: 300px;
+    padding-top: 1rem;
 }
 
-.legendLabel {
-    text-align: center;
-    padding: 0 0.2rem;
-}
-
-#color1 {
-    background-color: #fecc5c;
-}
-
-#color2 {
-    background-color: #fd8d3c;
-}
-
-#color3 {
-    background-color: #f03b20;
-}
-
-#color4 {
-    background-color: #bd0026;
+.legendContainer img {
+    width: 100%;
+    max-width: 300px;
 }

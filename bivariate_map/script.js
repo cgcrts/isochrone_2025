@@ -1,6 +1,6 @@
-const gazaBounds = [
-    [31.22, 34.21],   // SW corner
-    [31.59, 34.57]   // NE corner
+const swissBounds = [
+    [45.6, 5.8],   // SW corner
+    [47.9, 10.7]   // NE corner
 ];
 
 function layerURL(layerID){
@@ -19,60 +19,34 @@ const idGaza240906 = 'gaza_240906'
 const idGaza250404 = 'gaza_250404'
 
 let map = L.map('map', {
-    minZoom: 11,
-    maxZoom: 16,
-}).setView([31.48079, 34.43184], 11)
-    .setMaxBounds(gazaBounds); // Centered on gaza
+    minZoom: 8,
+    maxZoom: 14,
+}).fitBounds(swissBounds);
 
 const positron = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>',
     subdomains: 'abcd',
 });
 
-const layerGazaBuilding = L.tileLayer(layerURL(idGazaBuilding), {
+const bivariate = L.tileLayer('https://rtsinfo-data.s3.amazonaws.com/cgc/assets/geodata/bivariate_isochrones_v2/bivariate/{z}/{x}/{y}.png', {
     tileSize: 256,
 })
 
-const layerGaza231015 = L.tileLayer(layerURL(idGaza231015), {
+const bivariateBorder = L.tileLayer('https://rtsinfo-data.s3.amazonaws.com/cgc/assets/geodata/bivariate_isochrones_v2/background/border/{z}/{x}/{y}.png', {
+    minZoom: 10,
     tileSize: 256,
 })
 
-const layerGaza240229 = L.tileLayer(layerURL(idGaza240229), {
+const bivariateOverlay = L.tileLayer('https://rtsinfo-data.s3.amazonaws.com/cgc/assets/geodata/bivariate_isochrones_v2/background/overlay/{z}/{x}/{y}.png', {
     tileSize: 256,
+    opacity: 0.2,
 })
-
-const layerGaza240906 = L.tileLayer(layerURL(idGaza240906), {
-    tileSize: 256,
-})
-
-const layerGaza250404 = L.tileLayer(layerURL(idGaza250404), {
-    tileSize: 256,
-})
-
-// Layer collection
-const layers = {
-    layerGaza231015,
-    layerGaza240229,
-    layerGaza240906,
-    layerGaza250404,
-};
 
 positron.addTo(map)
-//layerGazaBuilding.addTo(map)
-layerGaza250404.addTo(map)
+bivariateOverlay.addTo(map)
+bivariate.addTo(map)
+bivariateBorder.addTo(map)
 
-// Handle radio button change
-document.querySelectorAll('input[name="dateLayer"]').forEach(radio => {
-    radio.addEventListener('change', function() {
-        // Remove all layers
-        Object.values(layers).forEach(layer => map.removeLayer(layer));
-
-        // Add selected layer
-        const selected = this.value;
-        layers[selected].addTo(map);
-
-        setTimeout(RTSInfoMisc.resize(), 200)
-    });
-});
+map.setMaxBounds(swissBounds)
 
 setTimeout(RTSInfoMisc.resize(), 200)
