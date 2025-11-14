@@ -42,9 +42,14 @@ const bivariateOverlay = L.tileLayer('https://rtsinfo-data.s3.amazonaws.com/cgc/
     opacity: 0.2,
 })
 
+const area = L.tileLayer('https://rtsinfo-data.s3.amazonaws.com/cgc/assets/geodata/bivariate_isochrones_v2/area/{z}/{x}/{y}.png', {
+    tileSize: 256,
+})
+
 positron.addTo(map)
 bivariateOverlay.addTo(map)
-bivariate.addTo(map)
+//bivariate.addTo(map)
+area.addTo(map)
 bivariateBorder.addTo(map)
 
 map.setMaxBounds(swissBounds)
