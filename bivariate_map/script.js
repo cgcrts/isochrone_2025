@@ -3,25 +3,24 @@ const swissBounds = [
     [47.9, 10.7]   // NE corner
 ];
 
-function layerURL(layerID){
-    const layerFolder = 'https://rtsinfo-data.s3.amazonaws.com/cgc/assets/geodata/gaza_destruction/'
-    const urlEnding = '/{z}/{x}/{y}.png'
+// get window width to see if user is on mobile
+const windowWidth = window.innerWidth
 
-    return layerFolder + layerID + urlEnding
+const initialZoom = 8
+const centerLat = 46.87;
+let centerLng
+
+// adapt map center point if on desktop or mobile (width < 450px)
+if (windowWidth < 450) {
+    centerLng = 6.75
+} else {
+    centerLng = 8.13;
 }
-
-
-const idBaseMap = 'gaza_base'
-const idGazaBuilding = 'gaza_building'
-const idGaza231015 = 'gaza_231015'
-const idGaza240229 = 'gaza_240229'
-const idGaza240906 = 'gaza_240906'
-const idGaza250404 = 'gaza_250404'
 
 let map = L.map('map', {
     minZoom: 8,
-    maxZoom: 14,
-}).fitBounds(swissBounds);
+    maxZoom: 15,
+}).setView([centerLat, centerLng], initialZoom)
 
 const positron = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>',
@@ -32,14 +31,21 @@ const bivariate = L.tileLayer('https://rtsinfo-data.s3.amazonaws.com/cgc/assets/
     tileSize: 256,
 })
 
-const bivariateBorder = L.tileLayer('https://rtsinfo-data.s3.amazonaws.com/cgc/assets/geodata/bivariate_isochrones_v2/background/border/{z}/{x}/{y}.png', {
-    minZoom: 10,
+const backgroundBorder = L.tileLayer('https://rtsinfo-data.s3.amazonaws.com/cgc/assets/geodata/bivariate_isochrones_v2/background/border/{z}/{x}/{y}.png', {
+    minZoom: 8,
     tileSize: 256,
+    opacity: 0.8,
 })
 
-const bivariateOverlay = L.tileLayer('https://rtsinfo-data.s3.amazonaws.com/cgc/assets/geodata/bivariate_isochrones_v2/background/overlay/{z}/{x}/{y}.png', {
+const backgroundRoads = L.tileLayer('https://rtsinfo-data.s3.amazonaws.com/cgc/assets/geodata/bivariate_isochrones_v2/background/roads/{z}/{x}/{y}.png', {
+    minZoom: 14,
     tileSize: 256,
-    opacity: 0.2,
+    opacity: 1,
+})
+
+const backgroundOverlay = L.tileLayer('https://rtsinfo-data.s3.amazonaws.com/cgc/assets/geodata/bivariate_isochrones_v2/background/overlay/{z}/{x}/{y}.png', {
+    tileSize: 256,
+    opacity: 0.3,
 })
 
 const area = L.tileLayer('https://rtsinfo-data.s3.amazonaws.com/cgc/assets/geodata/bivariate_isochrones_v2/area/{z}/{x}/{y}.png', {
@@ -47,11 +53,39 @@ const area = L.tileLayer('https://rtsinfo-data.s3.amazonaws.com/cgc/assets/geoda
 })
 
 positron.addTo(map)
-bivariateOverlay.addTo(map)
-//bivariate.addTo(map)
-area.addTo(map)
-bivariateBorder.addTo(map)
+backgroundOverlay.addTo(map)
+backgroundRoads.addTo(map)
+bivariate.addTo(map)
+//area.addTo(map)
+backgroundBorder.addTo(map)
+
+// Load local GeoJSON
+fetch('https://rtsinfo-data.s3.amazonaws.com/cgc/assets/geodata/bivariate_isochrones_v2/background/commune.json')
+    .then(res => res.json())
+    .then(data => {
+        const layer = L.geoJSON(data, {
+            style: {
+                fillOpacity: 0,
+                weight: 1,
+                color: 'black',
+            }
+        })
+        //layer.addTo(map);
+    })
+    .catch(err => console.error("Failed to load GeoJSON:", err));
 
 map.setMaxBounds(swissBounds)
+
+map.on('zoomend', function () {
+    const zoom = map.getZoom();
+
+    if (zoom >= 14) {
+        area.setOpacity(0.8);
+        bivariate.setOpacity(0.8);
+    } else {
+        area.setOpacity(1);
+        bivariate.setOpacity(1)
+    }
+});
 
 setTimeout(RTSInfoMisc.resize(), 200)
