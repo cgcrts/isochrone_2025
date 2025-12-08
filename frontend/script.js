@@ -999,6 +999,8 @@ advancedOptionsSelect.addEventListener('change', (event) => {
     } else {
         advancedOptions.style.display = 'none'
     }
+    // resize iframe when embedded on a website
+    setTimeout(RTSInfoMisc.resize(), 200)
 })
 
 geoOptionsSelect.addEventListener('change', (event) => {
