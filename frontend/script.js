@@ -1016,7 +1016,7 @@ geoOptionsSelect.addEventListener('change', (event) => {
 
 // Retrieve list of swiss public transport stations with geo coordinates
 let stations = [];
-fetch("https://rtsinfo-data.s3.amazonaws.com/cgc/assets/datafiles/data_gares_2025.json")
+fetch("./assets/data_gares_2025.json")
     .then(res => res.json())
     .then(data => {
         stations = data;
