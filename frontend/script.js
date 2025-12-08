@@ -206,7 +206,7 @@ const setMinMaxDepartureAt = async () => {
 
 const displayIsochroneMap = async (idx, clear = true) => {
     if (originPointCoords[idx] === null) {
-        alert("Vous devez d'abord choisir un point d'origine.");
+        alert("Il manque le Lieu de départ n°1, veuillez en choisir un.");
         return;
     }
 
