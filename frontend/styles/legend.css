@@ -18,6 +18,18 @@
     display: none;
 }
 
+.legendDateTime {
+    margin-bottom: 1rem;
+}
+
+.legendDateTime span {
+    font-weight: 500;
+}
+
+#legendDate {
+    margin-right: 0rem;
+}
+
 .legendLabels {
     display: flex;
     flex-wrap: wrap;
@@ -29,7 +41,7 @@
 }
 
 .legendContent {
-    margin-top: 1rem;
+    margin-top: 0.5rem;
     font-weight: 500;
 }
 

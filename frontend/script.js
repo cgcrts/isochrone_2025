@@ -175,6 +175,7 @@ function zoomToIsochrones() {
 const init = () => {
     setMinMaxDepartureAt();
     departureAtInput.value = getCurrentDateTime();
+    console.log(departureAtInput.value);
     // departureAtInput.value = departureAtInput.max;
     updateIsochroneIntervalOptions();
 
@@ -248,6 +249,17 @@ const displayIsochroneMap = async (idx, clear = true) => {
             .getElementById(`optimal-legend-${idx + 1}`)
             .classList.remove("hidden");
     }
+
+    const departureDateTime = isochroneMap.departure_at
+    const departureDay = departureDateTime.slice(8, 10)
+    const departureMonth = departureDateTime.slice(5, 7)
+    const departureYear = departureDateTime.slice(0, 4)
+    const departureTime = departureDateTime.slice(11, 16)
+
+    const legendDate = legendContainer.querySelector('#legendDate');
+    legendDate.innerHTML = `${departureDay}.${departureMonth}.${departureYear}`;
+    const legendTime = legendContainer.querySelector('#legendTime');
+    legendTime.innerHTML = `${departureTime}`;
 
     legendContainer.classList.remove("hidden");
 
@@ -693,7 +705,7 @@ const StartMarkerPlacement = (markerIndex) => {
 
     // scroll to map
     setTimeout(() => {
-            document.getElementById('map').scrollIntoView({behavior: "smooth"})
+            //document.getElementById('map').scrollIntoView({behavior: "smooth"})
         }, 200
     )
 };

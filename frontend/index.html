@@ -74,20 +74,20 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="departure-at">Date et heure de départ</label>
-                            <input type="datetime-local" id="departure-at" required />
+                            <label for="time-limit">Limite de temps (en minutes)</label>
+                            <input type="number" id="time-limit" min="10" max="480" value="60" required />
                         </div>
                     </div>
 
                     <div class="formCheckbox advancedOptionsCheckbox">
                         <input type="checkbox" class="formCheckboxInput" id="advancedOptionsSelect">
-                        <label for="advancedOptionsSelect">Options avancées</label>
+                        <label for="advancedOptionsSelect">Changer l'heure de départ</label>
                     </div>
 
                     <div class="formGrid" id="advancedOptions">
                         <div class="form-group">
-                            <label for="time-limit">Limite de temps (en minutes)</label>
-                            <input type="number" id="time-limit" min="10" max="480" value="60" required />
+                            <label for="departure-at">Date et heure de départ</label>
+                            <input type="datetime-local" id="departure-at" required />
                         </div>
 
                         <div class="form-group">
@@ -147,6 +147,10 @@
             <!-- Legend -->
 
             <div class="legendContainer hidden" id="legendContainer">
+                <div class="legendDateTime">
+                    Date et heure sélectionnées:
+                    <span id="legendDate"></span> - <span id="legendTime"></span>
+                </div>
                 <div class="legendLabels">
                     <div class="legendLabel">Temps de parcours (en minutes) et</div>
                     <div class="legendLabel">surface couverte (en km²)</div>
