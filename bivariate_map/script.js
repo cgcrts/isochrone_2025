@@ -27,7 +27,7 @@ const positron = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x
     subdomains: 'abcd',
 });
 
-const bivariate = L.tileLayer('https://rtsinfo-data.s3.amazonaws.com/cgc/assets/geodata/bivariate_isochrones_v2/bivariate/{z}/{x}/{y}.png', {
+const bivariate = L.tileLayer('https://rtsinfo-data.s3.amazonaws.com/cgc/assets/geodata/isochrones_v3/bivariate/{z}/{x}/{y}.png', {
     tileSize: 256,
 })
 
@@ -48,7 +48,7 @@ const backgroundOverlay = L.tileLayer('https://rtsinfo-data.s3.amazonaws.com/cgc
     opacity: 0.3,
 })
 
-const area = L.tileLayer('https://rtsinfo-data.s3.amazonaws.com/cgc/assets/geodata/bivariate_isochrones_v2/area/{z}/{x}/{y}.png', {
+const area = L.tileLayer('https://rtsinfo-data.s3.amazonaws.com/cgc/assets/geodata/isochrones_v3/area/{z}/{x}/{y}.png', {
     tileSize: 256,
 })
 
