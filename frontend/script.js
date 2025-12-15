@@ -842,8 +842,8 @@ const changeToasterText = (text, duration = 0) => {
 timeLimitInput.addEventListener("change", () => {
     if (timeLimitInput.value < 10) {
         timeLimitInput.value = 10;
-    } else if (timeLimitInput.value > 480) {
-        timeLimitInput.value = 480;
+    } else if (timeLimitInput.value > 240) {
+        timeLimitInput.value = 240;
     }
 
     updateIsochroneIntervalOptions();
