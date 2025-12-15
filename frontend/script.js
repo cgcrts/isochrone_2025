@@ -175,7 +175,7 @@ function zoomToIsochrones() {
 const init = () => {
     setMinMaxDepartureAt();
     departureAtInput.value = getCurrentDateTime();
-    console.log(departureAtInput.value);
+    //console.log(departureAtInput.value);
     // departureAtInput.value = departureAtInput.max;
     updateIsochroneIntervalOptions();
 
@@ -685,6 +685,10 @@ const EndMarkerPlacement = function (markerIndex) {
         onMarkerPlacementEndCallback();
     }
 
+    if (markerIndex === 0) {
+        enableSubmitButton()
+    }
+
     // resize iframe when embedded on a website
     setTimeout(RTSInfoMisc.resize(), 200)
 };
@@ -1028,6 +1032,20 @@ geoOptionsSelect.addEventListener('change', (event) => {
     locationInputs[1].querySelector('button').classList.toggle("hidden");
 })
 
+// set max time limit when "find optimal time" is checked
+findOptimalInput.addEventListener('change', () => {
+    const maxLimit = 60
+
+    if (findOptimalInput.checked) {
+        timeLimitInput.max = maxLimit; // Set max when checkbox is checked
+        if (timeLimitInput.value > maxLimit) {
+            timeLimitInput.value = maxLimit; // Optional: adjust current value if above max
+        }
+    } else {
+        timeLimitInput.removeAttribute('max'); // Remove limit if unchecked
+    }
+});
+
 // Retrieve list of swiss public transport stations with geo coordinates
 let stations = [];
 fetch("./assets/data_gares_2025.json")
@@ -1036,7 +1054,7 @@ fetch("./assets/data_gares_2025.json")
         stations = data;
         // sort stations alphabetically, considering accent letters as normal letters ('é' and 'e' for example)
         stations.sort((a, b) => a.name.localeCompare(b.name, "fr"));
-        console.log("API data:", stations);
+        //console.log("API data:", stations);
     });
 
 const searchInput = [document.getElementById("search-1"), document.getElementById("search-2")];
@@ -1119,6 +1137,22 @@ function resetOriginPointButton(index) {
     btnContentInitial.classList.remove('hidden')
     const btnContentSelected = selectOriginPointElems[index].querySelector('.btn-content-selected')
     btnContentSelected.classList.add('hidden')
+
+    if (index === 0) {
+        disableSubmitButton()
+    }
+}
+
+function disableSubmitButton() {
+    const submitButton = document.getElementById("submit-button");
+    //submitButton.classList.add("disabled");
+    submitButton.disabled = true;
+}
+
+function enableSubmitButton() {
+    const submitButton = document.getElementById("submit-button");
+    //submitButton.classList.remove("disabled");
+    submitButton.disabled = false;
 }
 
 searchInput[0].addEventListener("input", (e) => {handleSearchInput(e, 0)});

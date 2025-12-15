@@ -39,6 +39,7 @@ select {
     padding: 0 8px;
     height: 40px;
     width: 100%;
+    font-size: 13px;
 }
 
 input[type="range"].slider {
@@ -58,19 +59,21 @@ input[type="radio"] {
 }
 
 .btn {
-    background-color: #564946;
-    color: white;
-    border-radius: 8px;
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 40px;
-    padding: 0;
     text-align: center;
-    transition: 0.2s ease-in-out;
+    background-color: #564946;
+    color: white;
+    border: 2px solid black;
+    border-radius: 8px;
+    height: 40px;
     width: 100%;
     max-width: 400px;
+    padding: 0;
+    transition: 0.2s ease-in-out;
     gap: 6px;
+    font-size: 13px;
 }
 
 .btn:hover:not(:disabled) {
@@ -80,6 +83,7 @@ input[type="radio"] {
 
 .btn:disabled {
     background-color: lightgrey;
+    border-color: grey;
     color: grey;
 }
 
@@ -123,13 +127,13 @@ input[type="radio"] {
 } */
 .cursor-marker-0 {
     cursor:
-        url(./../images/markerSD.png) 16 43,
+        url(../assets/images/markerSD.png) 16 43,
         auto !important;
 }
 
 .cursor-marker-1 {
     cursor:
-        url(./../images/markerRedSD.png) 16 43,
+        url(../assets/images/markerRedSD.png) 16 43,
         auto !important;
 }
 
