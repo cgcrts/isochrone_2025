@@ -1037,12 +1037,14 @@ findOptimalInput.addEventListener('change', () => {
     const maxLimit = 60
 
     if (findOptimalInput.checked) {
-        timeLimitInput.max = maxLimit; // Set max when checkbox is checked
+        timeLimitInput.max = maxLimit;
+        // if time limit is over maximum allowed, set time limit to maximum and re-calculate isochrones intervals
         if (timeLimitInput.value > maxLimit) {
-            timeLimitInput.value = maxLimit; // Optional: adjust current value if above max
+            timeLimitInput.value = maxLimit;
+            updateIsochroneIntervalOptions()
         }
     } else {
-        timeLimitInput.removeAttribute('max'); // Remove limit if unchecked
+        timeLimitInput.removeAttribute('max');
     }
 });
 
