@@ -547,7 +547,7 @@ const updateIsochroneIntervalOptions = () => {
         if (timeLimitInput.value % (i + 1) == 0) {
             const value = timeLimitInput.value / (i + 1);
             isochroneIntervalInput.innerHTML += `
-                <option value="${value}">${value} Minuten, ${i + 1} Isochronen${i + 1 > 1 ? "s" : ""}</option>
+                <option value="${value}">${value} minuti, ${i + 1} isocrone${i + 1 > 1 ? "" : ""}</option>
             `;
             isochroneIntervalInput.value = value;
         }

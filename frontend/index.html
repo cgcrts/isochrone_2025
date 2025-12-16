@@ -22,32 +22,32 @@
             <div class="formContainer">
                 <form id="form">
                     <div class="geoOptions">
-                        <label>Wahl des Ausgangspunkts</label>
+                        <label>Scelta del punto di partenza</label>
                         <div class="formCheckbox geoOptionsCheckbox">
                             <label for="geoOptionsSelect" class="">
-                                <img src="assets/images/markerSD.png" alt="marker">Auf der Karte
+                                <img src="assets/images/markerSD.png" alt="marker">Sulla mappa
                             </label>
                             <input type="checkbox" class="formCheckboxInput" id="geoOptionsSelect">
                             <label for="geoOptionsSelect" class="selected">
-                                <img src="assets/images/logo_train.png" alt="train">Bahnhof
+                                <img src="assets/images/logo_train.png" alt="train">Stazione
                             </label>
                         </div>
                     </div>
                     <div class="formGrid" id="simpleOptions">
                         <div class="form-group" id="ctrls-point-1">
-                            <label>Ausgangspunkt Nr. 1</label>
+                            <label>Luogo di partenza n.1</label>
                             <div class="locationInput">
                                 <button class="btn btn-secondary hidden" id="select-origin-point-1" type="button">
                                     <span class="btn-content-initial">
                                         <img src="./assets/images/markerSD.png" width="15" alt="origin point"/>
-                                        Den Ausgangspunkt wählen
+                                        Scegliere un punto di partenza
                                     </span>
-                                    <span class="btn-content-active hidden">Auf die Karte klicken</span>
+                                    <span class="btn-content-active hidden">Cliccare sulla mappa</span>
                                     <span class="btn-content-selected hidden"></span>
 
                                 </button>
                                 <div class="input-wrapper">
-                                    <input id="search-1" type="text" placeholder="Einen Bahnhof suchen..." autocomplete="off"/>
+                                    <input id="search-1" type="text" placeholder="Cercare una stazione..." autocomplete="off"/>
                                     <span class="clearBtn" id="clearBtn-1">✕</span>
                                     <div id="results-1" class="results"></div>
                                 </div>
@@ -55,18 +55,18 @@
                         </div>
 
                         <div class="form-group disabled hidden" id="ctrls-point-2">
-                            <label>Ausgangspunkt Nr. 2 (optional)</label>
+                            <label>Luogo di partenza n.2 (facoltativo)</label>
                             <div class="locationInput">
                                 <button disabled class="btn btn-secondary hidden" id="select-origin-point-2" type="button">
                                     <span class="btn-content-initial">
                                         <img src="./assets/images/markerRedSD.png" width="15" alt="origin point"/>
-                                        Den Ausgangspunkt wählen
+                                        Scegliere un punto di partenza
                                     </span>
-                                    <span class="btn-content-active hidden">Auf die Karte klicken</span>
+                                    <span class="btn-content-active hidden">Cliccare sulla mappa</span>
                                     <span class="btn-content-selected hidden"></span>
                                 </button>
                                 <div class="input-wrapper">
-                                    <input id="search-2" type="text" placeholder="Rechercher une gare..." autocomplete="off"/>
+                                    <input id="search-2" type="text" placeholder="Cercare una stazione..." autocomplete="off"/>
                                     <span class="clearBtn" id="clearBtn-2">✕</span>
                                     <div id="results-2" class="results"></div>
                                 </div>
@@ -74,38 +74,38 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="time-limit">Zeitbudget (in Minuten)</label>
+                            <label for="time-limit">Limite di tempo (in minuti)</label>
                             <input type="number" id="time-limit" min="10" max="480" value="60" required />
                         </div>
                     </div>
 
                     <div class="formCheckbox advancedOptionsCheckbox">
                         <input type="checkbox" class="formCheckboxInput" id="advancedOptionsSelect">
-                        <label for="advancedOptionsSelect">Die Abfahrtszeit ändern</label>
+                        <label for="advancedOptionsSelect">Cambiare l'orario di partenza</label>
                     </div>
 
                     <div class="formGrid" id="advancedOptions">
                         <div class="form-group">
-                            <label for="departure-at">Datum und Zeit der Abfahrt</label>
+                            <label for="departure-at">Data e ora di partenza</label>
                             <input type="datetime-local" id="departure-at" required />
                         </div>
 
                         <div class="form-group">
-                            <label for="isochrone-interval">Abstand zwischen den Isochronen</label>
+                            <label for="isochrone-interval">Intervallo tra le isocrone</label>
                             <select id="isochrone-interval" required></select>
                         </div>
                         <div class="form-group">
-                            <label>Optimale Abfahrtszeit</label>
+                            <label>Ora di partenza ottimale</label>
                             <div class="formCheckbox">
                                 <input type="checkbox" class="formCheckboxInput" id="find-optimal" />
-                                <label for="find-optimal">Abfahrt zwischen -30' und +30'</label>
+                                <label for="find-optimal">Partenza tra -30' e +30'</label>
                             </div>
                             <div class="optimalTimeLabel hidden" id="optimal-legend-1">
-                                Optimale Abfahrt Ort 1
+                                Partenza ottimale luogo 1
                                 <span class="optimal-time">20:00</span>
                             </div>
                             <div class="optimalTimeLabel hidden" id="optimal-legend-2">
-                                Optimale Abfahrt Ort 2
+                                Partenza ottimale luogo 2
                                 <span class="optimal-time">22:30</span>
                             </div>
                         </div>
@@ -115,7 +115,7 @@
                     <div class="submitButtonContainer">
                         <button class="btn" id="submit-button" type="submit" disabled>
                             <img src="./assets/images/target.png" width="20" height="20" alt="target"/>
-                            Berechnen
+                            Calcolare
                         </button>
                     </div>
 
@@ -132,12 +132,12 @@
                     </div>
                     <div id="toast-content">
                         <!-- <div id="toast-spacer"></div> -->
-                        <p>Berechnung der Isochronen läuft...</p>
-                        <p class="hidden noline">Berechnung immer noch im Gang...</p>
-                        <p class="hidden noline">Noch ein paar Sekunden...</p>
-                        <p class="hidden noline">Es ist lang...</p>
-                        <p class="hidden noline">Es ist lang !</p>
-                        <p class="hidden noline">Es ist sehr lang...</p>
+                        <p>Calcolo dell'isocrona in corso...</p>
+                        <p class="hidden noline">Calcolo ancora in corso...</p>
+                        <p class="hidden noline">Ancora qualche secondo...</p>
+                        <p class="hidden noline">È lungo...</p>
+                        <p class="hidden noline">È lungo !</p>
+                        <p class="hidden noline">È molto lungo...</p>
                         <!-- <p class="hidden">I'm an awesome toast!</p> -->
                         <!-- <p class="hidden">I'm an awesome toast!</p> -->
                     </div>
@@ -148,17 +148,17 @@
 
             <div class="legendContainer hidden" id="legendContainer">
                 <div class="legendDateTime">
-                    Ausgewählter Zeitpunkt:
+                    Data e ora selezionate:
                     <span id="legendDate"></span> - <span id="legendTime"></span>
                 </div>
                 <div class="legendLabels">
-                    <div class="legendLabel">Reisezeit (in Minuten) und</div>
-                    <div class="legendLabel">abgedeckte Fläche (in km²)</div>
+                    <div class="legendLabel">Tempo di percorrenza (in minuti) e</div>
+                    <div class="legendLabel">superficie coperta (in km²)</div>
                 </div>
 
                 <div class="legendContent">
                     <div class="legendBarLabel">
-                        Ausgangspunkt 1
+                        Luogo di partenza 1
                     </div>
                     <div class="legendBar">
                         <div class="legendV2" id="legend"></div>
@@ -173,7 +173,7 @@
 
                 <div class="legendContent hidden">
                     <div class="legendBarLabel">
-                        Ausgangspunkt 2
+                        Luogo di partenza 2
                     </div>
                     <div class="legendBar">
                         <div class="legendV2" id="legend-2"></div>
@@ -187,7 +187,7 @@
                 </div>
             </div>
 
-            <button class="btn btn-secondary about" onclick="handleAboutButton()">Weitere Informationen</button>
+            <button class="btn btn-secondary about" onclick="handleAboutButton()">Informazioni</button>
 
             <div id="aboutContainer" class="hidden" >
                 <div id="aboutContent">
@@ -195,23 +195,23 @@
                         <svg width="24px" height="24px" viewBox="0 0 24 24" fill="#804a3e" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M5.29289 5.29289C5.68342 4.90237 6.31658 4.90237 6.70711 5.29289L12 10.5858L17.2929 5.29289C17.6834 4.90237 18.3166 4.90237 18.7071 5.29289C19.0976 5.68342 19.0976 6.31658 18.7071 6.70711L13.4142 12L18.7071 17.2929C19.0976 17.6834 19.0976 18.3166 18.7071 18.7071C18.3166 19.0976 17.6834 19.0976 17.2929 18.7071L12 13.4142L6.70711 18.7071C6.31658 19.0976 5.68342 19.0976 5.29289 18.7071C4.90237 18.3166 4.90237 17.6834 5.29289 17.2929L10.5858 12L5.29289 6.70711C4.90237 6.31658 4.90237 5.68342 5.29289 5.29289Z" fill="fill"/></svg>
                     </div>
                     <div class="aboutTitle">
-                        Berechnung der Isochronen
+                        Calcolo delle isocrone
                     </div>
                     <div class="aboutText">
-                        <a href="https://iso.hepiapp.ch" target="_blank">"Isochrones"</a> ist ein interaktives Tool zur Visualisierung von
-                        <a href="https://de.wikipedia.org/wiki/Erreichbarkeitskarte" target="_blank">Isochronenkarten</a>
-                        in der Schweiz. Die Plattform ermöglicht es, die zu Fuss und mit den öffentlichen Verkehrsmitteln der Schweiz erreichbaren Gebiete zu berechnen und zu vergleichen, ausgehend von einem Ausgangsort und einer Abfahrtszeit und dem zur Verfügung stehenden Zeitbudget.
+                        <a href="https://iso.hepiapp.ch" target="_blank">"Isochrone"</a> è uno strumento interattivo per visualizzare le
+                        <a href="https://fr.wikipedia.org/wiki/Carte_isochrone" target="_blank">mappe isocrone</a>
+                        in Svizzera. La piattaforma consente di calcolare e confrontare facilmente le zone accessibili, a piedi e con i trasporti pubblici svizzeri, in un tempo dato da un punto in Svizzera in funzione di un’ora di partenza.
                     </div>
                     <div class="aboutTitle">
-                        Quelle der Daten
+                        Fonte dei dati
                     </div>
                     <div class="aboutText">
-                        Die Daten stammen aus den
-                        <a href="https://opendata.swiss/de/dataset/fahrplan-2026-hrdf-format-5-4" target="_blank">Fahrplänen</a>
-                        des öffentlichen Verkehrs der Schweiz.
+                        I dati provengono dagli
+                        <a href="https://opendata.swiss/it/dataset/fahrplan-2026-hrdf-format-5-4" target="_blank">orari</a>
+                        dei trasporti pubblici svizzeri.
                     </div>
                     <div class="aboutTitle">
-                        Quellcode
+                        Codice sorgente
                     </div>
                     <div class="aboutText">
                         <div>
@@ -225,7 +225,7 @@
                         </div>
                     </div>
                     <div class="aboutTitle">
-                        Mitarbeit
+                        Crediti
                     </div>
                     <div class="aboutText">
                         <a href="https://github.com/florianburgener" target="_blank">F. Burgener</a>, A. Durgnat,
