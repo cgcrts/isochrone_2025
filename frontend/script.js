@@ -979,7 +979,7 @@ formElem.addEventListener("submit", async (e) => {
 
     isFormSubmitted = true;
     submitButton.classList.add("btn-cancel-request");
-    submitButton.innerHTML = `<img src="./assets/images/target.png" width="20" height="20"> Annuler`;
+    submitButton.innerHTML = `<img src="./assets/images/target.png" width="20" height="20"> Abbrechen`;
 
     try {
         // reset bounding boxes
@@ -995,7 +995,7 @@ formElem.addEventListener("submit", async (e) => {
     } finally {
         isFormSubmitted = false;
         submitButton.classList.remove("btn-cancel-request");
-        submitButton.innerHTML = `<img src="./assets/images/target.png" width="20" height="20"> Calculer`;
+        submitButton.innerHTML = `<img src="./assets/images/target.png" width="20" height="20"> Berechnen`;
 
         onFinishComputeIsochrone?.();
     }
