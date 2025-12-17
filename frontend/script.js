@@ -156,7 +156,9 @@ if (windowWidth < 450) {
 }
 
 // center of switzerland coordinates:
-const map = L.map("map").setView([centerLat, centerLng], initialZoom);
+const map = L.map("map", {attributionControl: false}).setView([centerLat, centerLng], initialZoom);
+const myAttrControl = L.control.attribution().addTo(map);
+myAttrControl.setPrefix('<a href="https://leafletjs.com/">Leaflet</a>');
 
 function isSafari() {
     return /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
