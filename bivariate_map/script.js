@@ -20,7 +20,12 @@ if (windowWidth < 450) {
 let map = L.map('map', {
     minZoom: 8,
     maxZoom: 15,
+    attributionControl: false,
 }).setView([centerLat, centerLng], initialZoom)
+
+// add leaflet attribution without ukrainian flag
+const customAttribution = L.control.attribution().addTo(map);
+customAttribution.setPrefix('<a href="https://leafletjs.com/">Leaflet</a>');
 
 const positron = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>',
@@ -55,8 +60,8 @@ const area = L.tileLayer('https://rtsinfo-data.s3.amazonaws.com/cgc/assets/geoda
 positron.addTo(map)
 backgroundOverlay.addTo(map)
 backgroundRoads.addTo(map)
-bivariate.addTo(map)
-//area.addTo(map)
+//bivariate.addTo(map)
+area.addTo(map)
 backgroundBorder.addTo(map)
 
 // Load local GeoJSON
